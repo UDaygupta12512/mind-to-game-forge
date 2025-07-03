@@ -2,41 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* DreamBuilder - Creative Game Design System */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Cosmic dreamy theme */
+    --background: 240 10% 3.9%;
+    --foreground: 300 20% 95%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 10% 6%;
+    --card-foreground: 300 20% 95%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 10% 6%;
+    --popover-foreground: 300 20% 95%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Vibrant purple-pink cosmic primary */
+    --primary: 280 100% 70%;
+    --primary-foreground: 240 10% 3.9%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Deep space secondary */
+    --secondary: 240 20% 15%;
+    --secondary-foreground: 300 20% 95%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Muted cosmic tones */
+    --muted: 240 15% 12%;
+    --muted-foreground: 240 20% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Electric blue accent */
+    --accent: 200 100% 60%;
+    --accent-foreground: 240 10% 3.9%;
 
+    /* Destructive stays red */
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Subtle borders and inputs */
+    --border: 240 20% 20%;
+    --input: 240 20% 12%;
+    --ring: 280 100% 70%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
+
+    /* Custom gradients for cosmic theme */
+    --gradient-cosmic: linear-gradient(135deg, hsl(280 100% 70%), hsl(200 100% 60%));
+    --gradient-nebula: linear-gradient(45deg, hsl(280 80% 40%), hsl(320 90% 50%), hsl(200 100% 60%));
+    --gradient-card: linear-gradient(145deg, hsl(240 10% 6%), hsl(240 15% 8%));
+    
+    /* Glowing effects */
+    --glow-primary: 0 0 30px hsl(280 100% 70% / 0.5);
+    --glow-accent: 0 0 20px hsl(200 100% 60% / 0.3);
+    
+    /* Animations */
+    --transition-cosmic: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 
     --sidebar-background: 0 0% 98%;
 
