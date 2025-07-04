@@ -45,7 +45,40 @@ In the deepest layer, Luna faces her greatest fear - losing her grip on reality.
 
 The story explores themes of memory, trauma healing, and the power of facing one's fears.`,
       
-      worldMap: 'Generated world map sketch will appear here',
+      worldMap: `**World Map Design: The Dreamer's Paradox**
+
+**Main Hub: Luna's Bedroom**
+- Starting point of each dream cycle
+- Contains the Dream Mirror (level selection)
+- Shows temporal distortions as progress increases
+
+**Level 1: Childhood Home (Shallow Sleep)**
+- Familiar rooms with slight distortions
+- Kitchen where conversations rewind
+- Living room with paused family photos
+- Basement door leading deeper
+
+**Level 2: School Memories (Deep Sleep)**
+- Classrooms with shifting timelines
+- Hallways that loop when time is manipulated
+- Library where books show different eras
+- Principal's office (boss encounter)
+
+**Level 3: The Temporal Nexus (Nightmare Core)**
+- Fractured reality with floating platforms
+- Multiple timeline versions of same spaces
+- Central void where all fears converge
+- Luna's true self at the center
+
+**Connections:**
+- Dream Portals: Swirling temporal vortexes between levels
+- Memory Bridges: Paths that shift based on solved puzzles
+- Time Tears: Shortcuts unlocked by mastering temporal abilities
+
+**Visual Elements:**
+- Floating time fragments showing glimpses of memories
+- Clock towers that bend and twist through dimensions
+- Ethereal mist that flows between connected areas`,
       
       artStyle: `**Ethereal Nightmare Aesthetic**
 
@@ -93,7 +126,37 @@ The story explores themes of memory, trauma healing, and the power of facing one
 
 **Meta Loop:** Complete 3-5 puzzle sequences → Boss encounter with major temporal challenge → Story revelation → Descend to deeper dream layer`,
 
-      uiSketches: 'Generated UI sketches will appear here'
+      uiSketches: `**UI/UX Design Specifications**
+
+**Main Menu Interface:**
+- Ethereal floating title with animated particles
+- Glowing "New Dream" button with pulsing effect
+- Load game shows as "Resume Dream" with soft glow
+- Settings accessed via floating gear icon
+
+**Gameplay HUD:**
+- Time manipulation wheel in bottom-right corner
+- Health/sanity bar represented as Luna's reflection clarity
+- Inventory appears as floating memory fragments
+- Minimal UI to maintain immersion
+
+**Time Control Interface:**
+- Circular time dial with rewind/pause/fast-forward sections
+- Visual feedback shows ghostly trails for affected objects
+- Timeline scrubber at bottom shows current temporal state
+- Quick-select buttons for common time actions
+
+**Dialogue System:**
+- Translucent speech bubbles with ethereal borders
+- Character portraits show emotional states through lighting
+- Text appears with typewriter effect synchronized to time flow
+- Memory fragments float around important conversations
+
+**Menu & Inventory:**
+- Dream journal as main menu interface
+- Pages flip with supernatural wind effects
+- Items appear as glowing temporal artifacts
+- Skill tree shows as branching constellation map`
     };
     
     setConcept(mockConcept);
@@ -223,12 +286,11 @@ The story explores themes of memory, trauma healing, and the power of facing one
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="aspect-video bg-muted/20 rounded-lg border border-primary/20 flex items-center justify-center">
-                    <div className="text-center">
-                      <Map className="h-12 w-12 text-muted-foreground mx-auto mb-2" />
-                      <p className="text-muted-foreground">World map visualization will be generated here</p>
-                    </div>
+                <div className="prose prose-invert max-w-none">
+                  <div className="whitespace-pre-wrap text-foreground">
+                    {concept.worldMap}
                   </div>
+                </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -242,25 +304,11 @@ The story explores themes of memory, trauma healing, and the power of facing one
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="prose prose-invert max-w-none">
-                    <div className="whitespace-pre-wrap text-foreground mb-6">
-                      {concept.artStyle}
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                      <div className="aspect-video bg-muted/20 rounded-lg border border-primary/20 flex items-center justify-center">
-                        <div className="text-center">
-                          <Palette className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">Character Concept Art</p>
-                        </div>
-                      </div>
-                      <div className="aspect-video bg-muted/20 rounded-lg border border-primary/20 flex items-center justify-center">
-                        <div className="text-center">
-                          <Palette className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">Environment Concept Art</p>
-                        </div>
-                      </div>
-                    </div>
+                <div className="prose prose-invert max-w-none">
+                  <div className="whitespace-pre-wrap text-foreground">
+                    {concept.artStyle}
                   </div>
+                </div>
                 </CardContent>
               </Card>
             </TabsContent>
@@ -292,16 +340,11 @@ The story explores themes of memory, trauma healing, and the power of facing one
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                    {['Main Menu', 'Gameplay HUD', 'Inventory System', 'Settings Panel', 'Dialogue Interface', 'Time Control UI'].map((uiElement) => (
-                      <div key={uiElement} className="aspect-square bg-muted/20 rounded-lg border border-primary/20 flex items-center justify-center">
-                        <div className="text-center">
-                          <Layout className="h-8 w-8 text-muted-foreground mx-auto mb-2" />
-                          <p className="text-sm text-muted-foreground">{uiElement}</p>
-                        </div>
-                      </div>
-                    ))}
+                <div className="prose prose-invert max-w-none">
+                  <div className="whitespace-pre-wrap text-foreground">
+                    {concept.uiSketches}
                   </div>
+                </div>
                 </CardContent>
               </Card>
             </TabsContent>
