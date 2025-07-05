@@ -4,8 +4,14 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Gamepad2, Map, Palette, Settings, Layout, Loader2 } from 'lucide-react';
+import { Sparkles, Gamepad2, Map, Palette, Settings, Layout, Loader2, Download, FileText } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 import cosmicBackground from '@/assets/cosmic-background.jpg';
+import gameConcept1 from '@/assets/game-concept-1.jpg';
+import gameConcept2 from '@/assets/game-concept-2.jpg';
+import gameConcept3 from '@/assets/game-concept-3.jpg';
 
 interface GameConcept {
   plotline: string;
@@ -19,6 +25,7 @@ export default function DreamBuilder() {
   const [gameIdea, setGameIdea] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [concept, setConcept] = useState<GameConcept | null>(null);
+  const { toast } = useToast();
 
   const generateConcept = async () => {
     if (!gameIdea.trim()) return;
@@ -163,6 +170,138 @@ The story explores themes of memory, trauma healing, and the power of facing one
     setIsGenerating(false);
   };
 
+  const handleSaveToPDF = async () => {
+    if (!concept) {
+      toast({
+        title: "No content to export",
+        description: "Please generate a game concept first.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const margin = 20;
+      let yPosition = margin;
+      
+      // Title
+      pdf.setFontSize(24);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Game Design Document', margin, yPosition);
+      yPosition += 15;
+      
+      // Game idea input
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Original Game Idea:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(12);
+      pdf.setFont('helvetica', 'normal');
+      const splitGameIdea = pdf.splitTextToSize(gameIdea, pageWidth - 2 * margin);
+      pdf.text(splitGameIdea, margin, yPosition);
+      yPosition += splitGameIdea.length * 5 + 10;
+      
+      // Plotline
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Plotline & Narrative:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const splitPlotline = pdf.splitTextToSize(concept.plotline, pageWidth - 2 * margin);
+      pdf.text(splitPlotline, margin, yPosition);
+      yPosition += splitPlotline.length * 4 + 10;
+      
+      // Add new page if needed
+      if (yPosition > pdf.internal.pageSize.getHeight() - 40) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      // World Map
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('World Map & Environment:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const splitWorldMap = pdf.splitTextToSize(concept.worldMap, pageWidth - 2 * margin);
+      pdf.text(splitWorldMap, margin, yPosition);
+      yPosition += splitWorldMap.length * 4 + 10;
+      
+      // Art Style
+      if (yPosition > pdf.internal.pageSize.getHeight() - 40) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Art Style & Visual Direction:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const splitArtStyle = pdf.splitTextToSize(concept.artStyle, pageWidth - 2 * margin);
+      pdf.text(splitArtStyle, margin, yPosition);
+      yPosition += splitArtStyle.length * 4 + 10;
+      
+      // Game Loop
+      if (yPosition > pdf.internal.pageSize.getHeight() - 40) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('Game Loop & Mechanics:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const splitGameLoop = pdf.splitTextToSize(concept.gameLoop, pageWidth - 2 * margin);
+      pdf.text(splitGameLoop, margin, yPosition);
+      yPosition += splitGameLoop.length * 4 + 10;
+      
+      // UI Sketches
+      if (yPosition > pdf.internal.pageSize.getHeight() - 40) {
+        pdf.addPage();
+        yPosition = margin;
+      }
+      
+      pdf.setFontSize(16);
+      pdf.setFont('helvetica', 'bold');
+      pdf.text('UI/UX Design & Interface:', margin, yPosition);
+      yPosition += 8;
+      pdf.setFontSize(10);
+      pdf.setFont('helvetica', 'normal');
+      const splitUISketeches = pdf.splitTextToSize(concept.uiSketches, pageWidth - 2 * margin);
+      pdf.text(splitUISketeches, margin, yPosition);
+      
+      // Save the PDF
+      pdf.save('game-design-document.pdf');
+      
+      toast({
+        title: "PDF Exported Successfully!",
+        description: "Your game design document has been saved as a PDF.",
+      });
+    } catch (error) {
+      console.error('Error generating PDF:', error);
+      toast({
+        title: "Export Failed",
+        description: "There was an error generating the PDF. Please try again.",
+        variant: "destructive",
+      });
+    }
+  };
+
+  const handleExportToEngine = (engine: string) => {
+    toast({
+      title: `Export to ${engine}`,
+      description: "This feature will be available in a future update. PDF export is currently available!",
+    });
+  };
+
   return (
     <div 
       className="min-h-screen bg-cover bg-center bg-fixed relative"
@@ -199,6 +338,47 @@ The story explores themes of memory, trauma healing, and the power of facing one
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
+            {/* Game Inspiration Gallery */}
+            <div className="mb-4">
+              <h4 className="text-sm font-medium mb-3 text-muted-foreground">Game Inspiration Gallery</h4>
+              <div className="grid grid-cols-3 gap-3">
+                <div className="relative group cursor-pointer">
+                  <img 
+                    src={gameConcept1} 
+                    alt="Fantasy game concept" 
+                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A mystical fantasy adventure with magical elements and ethereal environments...')}
+                  />
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-primary font-medium">Fantasy</span>
+                  </div>
+                </div>
+                <div className="relative group cursor-pointer">
+                  <img 
+                    src={gameConcept2} 
+                    alt="Cyberpunk game concept" 
+                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A cyberpunk thriller set in a neon-lit futuristic city with high-tech gadgets and dark atmosphere...')}
+                  />
+                  <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-accent font-medium">Cyberpunk</span>
+                  </div>
+                </div>
+                <div className="relative group cursor-pointer">
+                  <img 
+                    src={gameConcept3} 
+                    alt="Space exploration game concept" 
+                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A space exploration epic featuring alien worlds, advanced spacecraft, and cosmic adventures...')}
+                  />
+                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                    <span className="text-xs text-primary font-medium">Sci-Fi</span>
+                  </div>
+                </div>
+              </div>
+              <p className="text-xs text-muted-foreground mt-2">Click on any image to add inspiration to your game idea</p>
+            </div>
+            
             <Textarea
               placeholder="Example: A horror game where you can control time and solve puzzles in dreams..."
               value={gameIdea}
@@ -360,13 +540,29 @@ The story explores themes of memory, trauma healing, and the power of facing one
               Turn your dreams into playable reality.
             </p>
             <div className="flex gap-4 justify-center flex-wrap">
-              <Button variant="dream" size="lg">
+              <Button 
+                variant="dream" 
+                size="lg"
+                onClick={() => handleExportToEngine('Unity')}
+              >
+                <Download className="h-4 w-4 mr-2" />
                 Export to Unity
               </Button>
-              <Button variant="dream" size="lg">
+              <Button 
+                variant="dream" 
+                size="lg"
+                onClick={() => handleExportToEngine('Unreal Engine')}
+              >
+                <Download className="h-4 w-4 mr-2" />
                 Export to Unreal
               </Button>
-              <Button variant="dream" size="lg">
+              <Button 
+                variant="dream" 
+                size="lg"
+                onClick={handleSaveToPDF}
+                disabled={!concept}
+              >
+                <FileText className="h-4 w-4 mr-2" />
                 Save as PDF
               </Button>
             </div>
