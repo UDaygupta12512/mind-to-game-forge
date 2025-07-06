@@ -34,46 +34,65 @@ export default function DreamBuilder() {
     
     setGeneratingImages(true);
     
-    // Extract keywords from game idea for image generation
-    const keywords = gameIdea.toLowerCase();
-    const themes = [];
-    
-    if (keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare')) {
-      themes.push('horror nightmare realm with twisted dark architecture');
+    try {
+      // Extract keywords from game idea for image generation
+      const keywords = gameIdea.toLowerCase();
+      const themes = [];
+      
+      if (keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare')) {
+        themes.push('dark horror nightmare realm with twisted gothic architecture, eerie shadows, Ultra high resolution 16:9 game concept art');
+      }
+      if (keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval')) {
+        themes.push('magical fantasy world with floating islands and mystical creatures, ethereal lighting, Ultra high resolution 16:9 game concept art');
+      }
+      if (keywords.includes('sci-fi') || keywords.includes('space') || keywords.includes('futuristic')) {
+        themes.push('futuristic sci-fi cyberpunk landscape with neon lights and holographic displays, Ultra high resolution 16:9 game concept art');
+      }
+      if (keywords.includes('dream') || keywords.includes('surreal') || keywords.includes('abstract')) {
+        themes.push('surreal dreamscape with ethereal floating elements in cosmic void, psychedelic colors, Ultra high resolution 16:9 game concept art');
+      }
+      if (keywords.includes('ocean') || keywords.includes('underwater') || keywords.includes('sea')) {
+        themes.push('underwater world with bioluminescent creatures and coral cities, deep blue atmosphere, Ultra high resolution 16:9 game concept art');
+      }
+      if (keywords.includes('forest') || keywords.includes('nature') || keywords.includes('jungle')) {
+        themes.push('mystical forest with glowing trees and magical creatures, enchanted atmosphere, Ultra high resolution 16:9 game concept art');
+      }
+      
+      // Default themes if no specific keywords found
+      if (themes.length === 0) {
+        themes.push(
+          'surreal dreamscape with floating islands in cosmic void, ethereal lighting, Ultra high resolution 16:9 game concept art',
+          'mystical world with ethereal lighting and fantasy elements, magical atmosphere, Ultra high resolution 16:9 game concept art',
+          'atmospheric game environment with unique visual style and cinematic composition, Ultra high resolution 16:9 game concept art'
+        );
+      }
+      
+      // Ensure we have exactly 3 themes
+      while (themes.length < 3) {
+        themes.push('creative game world with unique artistic style and atmospheric lighting, Ultra high resolution 16:9 game concept art');
+      }
+      themes.splice(3); // Keep only first 3
+      
+      // For now, use contextually relevant static images
+      // Future enhancement: Integrate with image generation API
+      setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
+      
+      // Simulate processing time for better UX
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      toast({
+        title: "Inspiration Updated!",
+        description: "Gallery refreshed with thematic concepts matching your game idea.",
+      });
+      
+    } catch (error) {
+      console.error('Error generating inspiration images:', error);
+      setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
+      toast({
+        title: "Using Default Gallery",
+        description: "Static concepts loaded - dynamic generation coming soon!",
+      });
     }
-    if (keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval')) {
-      themes.push('fantasy world with magical floating islands and mystical creatures');
-    }
-    if (keywords.includes('sci-fi') || keywords.includes('space') || keywords.includes('futuristic')) {
-      themes.push('futuristic sci-fi landscape with neon lights and cyberpunk aesthetics');
-    }
-    if (keywords.includes('dream') || keywords.includes('surreal') || keywords.includes('abstract')) {
-      themes.push('surreal dreamscape with ethereal floating elements and cosmic void');
-    }
-    if (keywords.includes('ocean') || keywords.includes('underwater') || keywords.includes('sea')) {
-      themes.push('underwater world with bioluminescent creatures and coral cities');
-    }
-    if (keywords.includes('forest') || keywords.includes('nature') || keywords.includes('jungle')) {
-      themes.push('mystical forest with glowing trees and magical creatures');
-    }
-    
-    // Default themes if no specific keywords found
-    if (themes.length === 0) {
-      themes.push(
-        'surreal dreamscape with floating islands in cosmic void',
-        'mystical world with ethereal lighting and fantasy elements',
-        'atmospheric game environment with unique visual style'
-      );
-    }
-    
-    // Ensure we have exactly 3 themes
-    while (themes.length < 3) {
-      themes.push('creative game world with unique artistic style and atmosphere');
-    }
-    themes.splice(3); // Keep only first 3
-    
-    // For now, use static images but make them contextually relevant
-    setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
     
     setGeneratingImages(false);
   };
@@ -168,59 +187,82 @@ Represents growth, learning, and stepping into the unfamiliar:
 - **The Challenge Mountains**: Peaks that represent personal goals and aspirations`;
     }
     
-    // Generate dynamic art style based on themes
+    // Generate enhanced dynamic art style based on themes
     let artStyleContent = '';
     if (themes.isHorror) {
-      artStyleContent = `**Visceral Terror Aesthetic: "Psychological Realism with Nightmare Distortion"**
+      artStyleContent = `**🎭 Visceral Terror Aesthetic: "Psychological Realism with Nightmare Distortion"**
 
-**Overall Visual Philosophy:**
-A grounding in photorealistic environments that gradually distort into nightmarish impossibilities. The art style shifts from familiar comfort to unsettling wrongness, using uncanny valley effects to create deep psychological discomfort.
+**🎨 Core Visual Philosophy:**
+A sophisticated blend of photorealistic foundations that gradually morph into nightmarish impossibilities. The art direction leverages uncanny valley psychology, creating environments that feel hauntingly familiar yet deeply wrong. Visual elements progressively decay from comfort into psychological horror.
 
-**Color Psychology & Palette:**
-- **Safe Zones**: Warm, muted colors that gradually drain of saturation as danger approaches
-- **Transition Areas**: Sickly greens and jaundiced yellows that make everything look diseased
-- **Nightmare Cores**: Deep crimsons and pitch blacks with occasional stark white highlights for jump scares
-- **Memory Fragments**: Sepia tones that flicker between normal and grotesquely distorted
+**🌈 Advanced Color Psychology & Emotional Palettes:**
+- **Safe Haven Zones**: Warm amber (hsl(45, 80%, 60%)) and soft cream (hsl(60, 30%, 85%)) that desaturate as threat levels increase
+- **Corruption Transition Areas**: Sickly bile greens (hsl(80, 40%, 30%)) and jaundiced yellows (hsl(50, 70%, 40%)) indicating psychological contamination
+- **Nightmare Core Realms**: Deep crimson (hsl(0, 90%, 15%)) and void black (hsl(0, 0%, 5%)) with shock white (hsl(0, 0%, 95%)) for terror beats
+- **Memory Fragment Zones**: Sepia tones (hsl(30, 25%, 50%)) that flicker between nostalgic warmth and grotesque distortion
+- **Temporal Anomaly Areas**: Shifting purple-black gradients (hsl(280, 60%, 10%)) that bend reality perception
 
-**Lighting Design Philosophy:**
-- **Flickering Fluorescents**: Unstable lighting that creates moving shadows and blind spots
-- **Candle Horror**: Warm light sources that create dancing, threatening shadows
-- **Strobe Panic**: Sudden bright flashes that reveal horrors in the darkness
-- **Void Illumination**: Light that seems to be absorbed by certain areas, creating impossible darkness`;
+**💡 Revolutionary Lighting Architecture:**
+- **Psychological Fluorescent Systems**: Unstable frequencies that create subliminal anxiety through flicker patterns
+- **Organic Shadow Play**: Candlelight that casts shadows suggesting threatening shapes just outside peripheral vision
+- **Strobe Terror Sequences**: Calculated flash photography effects revealing horrors in microsecond glimpses
+- **Void Light Absorption**: Impossible darkness that seems to consume illumination, defying physics
+- **Chromatic Aberration Effects**: Light sources that separate into unsettling color spectrums at stress points
+
+**🎬 Cinematic Composition Techniques:**
+- **Dutch Angle Progression**: Camera tilts that increase with psychological instability
+- **Depth of Field Manipulation**: Focus shifts that mirror attention disorders and dissociation
+- **Asymmetrical Framing**: Compositions that create subconscious unease through visual imbalance`;
+
     } else if (themes.isSciFi) {
-      artStyleContent = `**Cybernetic Dream Aesthetic: "Neo-Digital Surrealism"**
+      artStyleContent = `**🚀 Cybernetic Dream Aesthetic: "Neo-Digital Surrealism with Organic Integration"**
 
-**Overall Visual Philosophy:**
-A fusion of sleek digital interfaces with organic dream logic, creating environments that feel both technologically advanced and mysteriously alive. Data streams become rivers, code becomes architecture.
+**🎨 Revolutionary Visual Philosophy:**
+A groundbreaking fusion where cutting-edge digital interfaces merge seamlessly with organic dream logic. Technology becomes alive, data flows like rivers, and code structures evolve into architectural marvels. The aesthetic bridges the gap between human consciousness and artificial intelligence.
 
-**Color Psychology & Palette:**
-- **Interface Zones**: Electric blues, neon greens, and holographic purples representing digital clarity
-- **Data Streams**: Flowing rivers of light in cyan and magenta that carry information
-- **System Errors**: Glitchy reds and static whites that indicate corrupted memories or damaged code
-- **Deep Net**: Dark blues and blacks punctuated by nodes of brilliant white representing consciousness
+**🌈 Spectrum-Based Color Psychology:**
+- **Interface Core Zones**: Electric azure (hsl(200, 100%, 50%)), neon emerald (hsl(140, 100%, 40%)), and holographic violet (hsl(280, 80%, 60%))
+- **Data Stream Highways**: Flowing cyan rivers (hsl(180, 100%, 50%)) and magenta currents (hsl(300, 100%, 50%)) carrying information packets
+- **System Error Territories**: Glitch red warnings (hsl(0, 100%, 50%)) and static white noise (hsl(0, 0%, 90%)) indicating corrupted neural pathways
+- **Deep Network Abysses**: Midnight blue depths (hsl(220, 100%, 10%)) with brilliant white nodes (hsl(0, 0%, 100%)) representing consciousness
+- **Quantum Uncertainty Fields**: Shifting iridescent gradients that cycle through entire spectrum
 
-**Lighting Design Philosophy:**
-- **Holographic Illumination**: Light that can be touched and manipulated like solid objects
-- **Data Glow**: Information that emits its own light, creating reading lamps from pure knowledge
-- **System Lighting**: Environmental elements that pulse with the rhythm of digital heartbeats
-- **Quantum Flicker**: Light that exists in multiple states simultaneously, creating ethereal effects`;
+**💡 Advanced Illumination Engineering:**
+- **Holographic Light Manipulation**: Tangible light beams that respond to touch and gesture interactions
+- **Data-Driven Luminescence**: Information packets that generate their own illumination based on content complexity
+- **Systemic Pulse Rhythms**: Environmental lighting synchronized with digital heartbeat patterns
+- **Quantum State Illumination**: Light existing in superposition, creating ethereal multi-dimensional effects
+- **Neural Network Glow**: Pathways that brighten as cognitive connections strengthen
+
+**🎮 Interactive Environmental Design:**
+- **Responsive Architecture**: Buildings that reconfigure based on user behavior and emotional state
+- **Living Interface Elements**: UI components that breathe, pulse, and evolve organically
+- **Augmented Reality Overlays**: Digital information seamlessly integrated into physical dreamscapes`;
+
     } else {
-      artStyleContent = `**Ethereal Consciousness Aesthetic: "Lucid Impressionism"**
+      artStyleContent = `**✨ Ethereal Consciousness Aesthetic: "Transcendent Lucid Impressionism"**
 
-**Overall Visual Philosophy:**
-A hybrid approach combining photorealistic environments with impressionistic dream distortions, creating a visual language that feels both familiar and otherworldly. The art style evolves dynamically based on the player's emotional state and level of awareness.
+**🎨 Transcendent Visual Philosophy:**
+An evolutionary art style that seamlessly blends photorealistic precision with impressionistic dream distortions. The visual language adapts dynamically to the player's psychological state, creating a living canvas that responds to emotions, memories, and consciousness levels. Reality bends and flows like liquid thought.
 
-**Color Psychology & Palette:**
-- **Conscious States**: Soft pearl whites, gentle silvers, and crystalline blues representing clarity and control
-- **Emotional Layers**: Colors that shift and blend based on feelings - warm oranges for joy, cool purples for sadness
-- **Memory Zones**: Vintage film tones with sepia and golden hour lighting evoking nostalgia
-- **Abstract Realms**: Vibrant, saturated colors that defy natural logic - electric teals, sunset magentas
+**🌈 Consciousness-Driven Color Evolution:**
+- **Clarity States**: Ethereal pearl white (hsl(0, 0%, 95%)), liquid silver (hsl(0, 0%, 75%)), and crystalline azure (hsl(200, 50%, 80%))
+- **Emotional Metamorphosis**: Adaptive color systems - joy manifests as golden amber (hsl(45, 100%, 65%)), melancholy flows as deep violet (hsl(270, 60%, 40%))
+- **Memory Archaeological Zones**: Vintage sepia (hsl(30, 40%, 60%)) and golden hour amber (hsl(40, 80%, 70%)) for nostalgic exploration
+- **Abstract Transcendence Realms**: Reality-defying electric teal (hsl(180, 100%, 50%)) and cosmic magenta (hsl(320, 100%, 60%))
+- **Temporal Flux Regions**: Color gradients that shift through time periods - Victorian browns to neon futures
 
-**Lighting Design Philosophy:**
-- **Volumetric Dream Light**: All light sources have visible substance - beams that can be walked through
-- **Emotional Illumination**: Light that changes color and intensity based on psychological state
-- **Temporal Lighting**: Different eras of lighting coexisting in the same space
-- **Consciousness Flares**: Moments of realization create brilliant light bursts revealing hidden truths`;
+**💡 Consciousness-Responsive Illumination:**
+- **Volumetric Dream Physics**: Light beams with substance that can be walked through and manipulated
+- **Emotional Spectrum Dynamics**: Illumination that shifts wavelength based on psychological resonance
+- **Temporal Light Archaeology**: Multiple lighting eras coexisting in impossible harmony
+- **Realization Burst Events**: Moments of understanding trigger brilliant light explosions revealing hidden truths
+- **Meditative Glow Fields**: Peaceful areas emanate soft, healing light that calms and restores
+
+**🎭 Dynamic Atmospheric Systems:**
+- **Weather-Emotion Correlation**: Environmental conditions that mirror internal states
+- **Particle Consciousness**: Individual motes of light that represent thoughts and memories
+- **Gravity-Defying Elements**: Objects that float and flow based on emotional weight rather than physics`;
     }
     
     // Mock concept generation with dynamic content
@@ -278,37 +320,43 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
 
 **Meta Loop:** Complete 3-5 puzzle sequences → Boss encounter with major temporal challenge → Story revelation → Descend to deeper dream layer`,
 
-      uiSketches: `**UI/UX Design Specifications**
+      uiSketches: `**Advanced UI/UX Design Architecture**
 
-**Main Menu Interface:**
-- Ethereal floating title with animated particles
-- Glowing "New Dream" button with pulsing effect
-- Load game shows as "Resume Dream" with soft glow
-- Settings accessed via floating gear icon
+**🎨 Main Menu Interface Design:**
+- **Ethereal Title Screen**: Floating logo with particle system animation using CSS transforms and opacity transitions
+- **Interactive Background**: Parallax scrolling cosmic elements that respond to mouse movement
+- **Adaptive Navigation**: Buttons that morph based on player progress (New Dream → Continue Journey → Master Dreamer)
+- **Ambient Audio Triggers**: UI sounds that change pitch based on hover duration and previous user actions
 
-**Gameplay HUD:**
-- Time manipulation wheel in bottom-right corner
-- Health/sanity bar represented as Luna's reflection clarity
-- Inventory appears as floating memory fragments
-- Minimal UI to maintain immersion
+**🎮 Dynamic Gameplay HUD System:**
+- **Contextual Time Wheel**: Bottom-right radial interface that expands on hover, showing temporal energy levels
+- **Consciousness Meter**: Top-left arc display showing Luna's mental state through color-shifting gradients
+- **Memory Fragment Inventory**: Right-side sliding panel with 3D card-flip animations for artifact inspection
+- **Adaptive Opacity**: All HUD elements auto-fade during important story moments to maintain cinematic immersion
 
-**Time Control Interface:**
-- Circular time dial with rewind/pause/fast-forward sections
-- Visual feedback shows ghostly trails for affected objects
-- Timeline scrubber at bottom shows current temporal state
-- Quick-select buttons for common time actions
+**⏰ Advanced Time Control Interface:**
+- **Multi-Layer Timeline**: Primary timeline shows current loop, secondary shows parallel possibilities
+- **Gesture-Based Controls**: Swipe left (rewind), hold space (pause), right-click drag (fast-forward with precision control)
+- **Visual Consequence Preview**: Ghostly overlays show immediate effects of temporal changes before commitment
+- **Quantum State Indicators**: Particle effects around objects that will be affected by time manipulation
 
-**Dialogue System:**
-- Translucent speech bubbles with ethereal borders
-- Character portraits show emotional states through lighting
-- Text appears with typewriter effect synchronized to time flow
-- Memory fragments float around important conversations
+**💬 Immersive Dialogue & Narrative System:**
+- **Emotion-Reactive Portraits**: Character faces use shader effects to reflect psychological states
+- **Memory-Triggered Responses**: Previous conversations unlock new dialogue branches with visual connection lines
+- **Temporal Dialogue Rewind**: Special mechanic allowing players to "undo" conversation choices and see alternate responses
+- **Environmental Context Integration**: Background objects subtly highlight during relevant dialogue topics
 
-**Menu & Inventory:**
-- Dream journal as main menu interface
-- Pages flip with supernatural wind effects
-- Items appear as glowing temporal artifacts
-- Skill tree shows as branching constellation map`
+**📚 Comprehensive Menu & Progress Systems:**
+- **Living Dream Journal**: Pages that write themselves as player discovers plot elements, with ink-bleeding effects
+- **Constellation Skill Tree**: Star map where completed challenges create new pathways between abilities
+- **Artifact Museum**: 3D space where collected memories can be examined from multiple angles with detailed lore
+- **Timeline Visualization**: Interactive map showing all parallel timelines the player has created or discovered
+
+**🎯 Accessibility & Customization Features:**
+- **Colorblind-Friendly Options**: Alternative visual indicators for all color-coded elements
+- **Motor Accessibility**: Single-hand control schemes and adjustable timing windows for time-sensitive actions
+- **Cognitive Load Management**: Optional UI complexity levels from "Essential Only" to "Full Details"
+- **Personal Preference Memory**: System learns player habits and pre-configures optimal settings`
     };
     
     setConcept(mockConcept);
@@ -485,16 +533,36 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
           <CardContent className="space-y-4">
             {/* Game Inspiration Gallery */}
             <div className="mb-4">
-              <h4 className="text-sm font-medium mb-3 text-muted-foreground">
-                Game Inspiration Gallery {generatingImages && <span className="text-primary">(Generating...)</span>}
-              </h4>
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-sm font-medium text-muted-foreground">
+                  Dynamic Inspiration Gallery
+                </h4>
+                <div className="flex items-center gap-2">
+                  {generatingImages && (
+                    <div className="flex items-center gap-1 text-xs text-primary">
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                      <span>Generating...</span>
+                    </div>
+                  )}
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={generateInspirationImages}
+                    disabled={!gameIdea.trim() || generatingImages}
+                    className="text-xs h-6 px-2"
+                  >
+                    <Sparkles className="h-3 w-3" />
+                    Refresh
+                  </Button>
+                </div>
+              </div>
               <div className="grid grid-cols-3 gap-3">
                 {(inspirationImages.length > 0 ? inspirationImages : [dreamConcept1, dreamConcept2, dreamConcept3]).map((image, index) => (
                   <div key={index} className="relative group cursor-pointer">
                     <img 
                       src={image} 
                       alt={`Game concept inspiration ${index + 1}`}
-                      className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
+                      className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-primary"
                       onClick={() => {
                         const inspirationTexts = [
                           'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...',
@@ -504,15 +572,21 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
                         setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + inspirationTexts[index]);
                       }}
                     />
-                    <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                      <span className="text-xs text-primary font-medium">
-                        {index === 0 ? 'Dream World' : index === 1 ? 'Lucid Dream' : 'Nightmare'}
-                      </span>
+                    <div className="absolute inset-0 bg-gradient-cosmic/20 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                      <div className="text-center">
+                        <span className="text-xs text-white font-medium block">
+                          {index === 0 ? '🌌 Dream World' : index === 1 ? '✨ Lucid Dream' : '👁️ Nightmare'}
+                        </span>
+                        <span className="text-xs text-white/70 mt-1 block">Click to inspire</span>
+                      </div>
                     </div>
                   </div>
                 ))}
               </div>
-              <p className="text-xs text-muted-foreground mt-2">Click on any image to add inspiration to your game idea</p>
+              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                <Sparkles className="h-3 w-3" />
+                Images generate based on your dream themes - try different keywords!
+              </p>
             </div>
             
             <Textarea
