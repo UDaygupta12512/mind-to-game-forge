@@ -9,9 +9,9 @@ import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import cosmicBackground from '@/assets/cosmic-background.jpg';
-import gameConcept1 from '@/assets/game-concept-1.jpg';
-import gameConcept2 from '@/assets/game-concept-2.jpg';
-import gameConcept3 from '@/assets/game-concept-3.jpg';
+import dreamConcept1 from '@/assets/dream-concept-1.jpg';
+import dreamConcept2 from '@/assets/dream-concept-2.jpg';
+import dreamConcept3 from '@/assets/dream-concept-3.jpg';
 
 interface GameConcept {
   plotline: string;
@@ -37,72 +37,144 @@ export default function DreamBuilder() {
     
     // Mock concept generation
     const mockConcept: GameConcept = {
-      plotline: `**The Dreamer's Paradox**
+      plotline: `**The Dreamer's Paradox: A Journey Through Consciousness**
 
-You play as Luna, a lucid dreamer trapped in recursive nightmares. Each dream layer contains temporal puzzles that must be solved by manipulating time - rewinding conversations, fast-forwarding through events, or pausing reality to examine clues.
+You embody Luna, a gifted lucid dreamer whose ability to manipulate time within dreamscapes becomes both her greatest power and her most dangerous curse. After a traumatic event fragments her consciousness, Luna finds herself trapped in an endless cycle of recursive nightmares, each layer deeper and more treacherous than the last.
 
-**Act 1: The Shallow Sleep**
-Luna discovers her ability to control time in dreams when a recurring nightmare of her childhood home begins changing. She must learn to rewind conversations with shadow figures to uncover repressed memories.
+**Act 1: The Shallow Sleep - "Echoes of Memory"**
+Luna awakens in a distorted version of her childhood home, where time flows like liquid mercury. Furniture phases in and out of existence, family photos show different faces each time she looks, and conversations with shadowy figures can be rewound to reveal hidden meanings. She discovers that by manipulating time—rewinding moments, pausing reality, or fast-forwarding through painful memories—she can uncover fragments of her repressed past. Each solved temporal puzzle unlocks a memory fragment, slowly revealing the trauma that shattered her mind.
 
-**Act 2: The Deep Dive** 
-As Luna descends deeper into her subconscious, the time manipulation becomes more complex. She can now split timelines, creating parallel dream sequences to solve multi-layered puzzles involving her past trauma.
+**Key Mechanics:** Time rewind (conversations replay with new dialogue options), temporal freeze (examine objects that change when time flows), memory reconstruction (piece together fragmented scenes).
 
-**Act 3: The Nightmare's Core**
-In the deepest layer, Luna faces her greatest fear - losing her grip on reality. Time becomes unstable, and she must use all her temporal abilities to escape before the nightmare consumes her waking mind.
+**Act 2: The Deep Dive - "Fractured Timelines"**
+As Luna descends into her subconscious's deeper layers, reality becomes increasingly unstable. She gains the ability to split timelines, creating parallel dream sequences where different choices lead to different outcomes. The environments become more surreal—schools where classrooms exist in multiple time periods simultaneously, libraries where books rewrite themselves, and mirrors that show alternate versions of her life. Luna must solve increasingly complex puzzles that require her to coordinate actions across multiple timelines, often sacrificing one version of herself to save another.
 
-The story explores themes of memory, trauma healing, and the power of facing one's fears.`,
+**Key Mechanics:** Timeline splitting (create parallel puzzle solutions), quantum decision trees (choices in one timeline affect others), temporal echoes (past actions influence present puzzles).
+
+**Act 3: The Nightmare's Core - "The Dreamer's Awakening"**
+In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation of her fractured consciousness that controls time itself. Here, past, present, and future exist simultaneously. Luna must use every temporal ability she's mastered while navigating a constantly shifting reality where the rules of time break down completely. The final challenge isn't just escaping the nightmare, but choosing whether to heal her trauma or remain in the comfort of her dream world forever.
+
+**Key Mechanics:** Temporal chaos (time flows unpredictably), reality anchoring (stabilize fragments of truth), consciousness integration (merge all timeline versions of Luna).
+
+**Themes:** The game explores deep psychological themes including trauma processing, the nature of memory and identity, the courage required for healing, and the philosophical question of whether ignorance is truly bliss. It challenges players to confront difficult truths while offering hope for recovery and growth.`,
       
-      worldMap: `**World Map Design: The Dreamer's Paradox**
+      worldMap: `**World Map Design: The Dreamer's Paradox - A Multi-Dimensional Dream Architecture**
 
-**Main Hub: Luna's Bedroom**
-- Starting point of each dream cycle
-- Contains the Dream Mirror (level selection)
-- Shows temporal distortions as progress increases
+**Central Hub: The Observatory of Consciousness**
+The game's main hub exists as a floating crystalline observatory suspended in a cosmic void. This is Luna's "safe space" where her conscious mind maintains control. The observatory features:
+- **The Dream Mirror**: A massive, ethereal mirror that serves as the level selection interface, showing swirling portals to different dream layers
+- **The Memory Gallery**: Walls lined with floating picture frames that fill with recovered memories as players progress
+- **The Temporal Workshop**: Where Luna can experiment with and upgrade her time manipulation abilities
+- **The Journal Sanctum**: A library containing all collected story fragments, concept art, and character development notes
 
-**Level 1: Childhood Home (Shallow Sleep)**
-- Familiar rooms with slight distortions
-- Kitchen where conversations rewind
-- Living room with paused family photos
-- Basement door leading deeper
+**Layer 1: The Nostalgic Realm (Shallow Sleep - Comfort Zone)**
+This layer represents Luna's conscious memories and familiar spaces, but with subtle dream-logic distortions:
+- **Childhood Home**: A Victorian-style house where rooms exist in different time periods. The kitchen shows family dinners from various ages, the living room has furniture that phases between different decades, and the attic contains toys that move on their own.
+- **The Garden of Echoes**: An ever-changing backyard where conversations with family members can be rewound, each replay revealing deeper emotional truths.
+- **The Basement of Beginnings**: The entrance to deeper dreams, featuring a spiral staircase that descends infinitely, with each step representing a deeper layer of consciousness.
 
-**Level 2: School Memories (Deep Sleep)**
-- Classrooms with shifting timelines
-- Hallways that loop when time is manipulated
-- Library where books show different eras
-- Principal's office (boss encounter)
+**Layer 2: The Scholastic Dimension (Deep Sleep - Growth and Trauma)**
+Representing Luna's formative experiences and learning, where logic begins to break down:
+- **The Infinite Academy**: A school that exists across multiple time periods, with classrooms from elementary through college simultaneously present.
+- **The Library of Possibilities**: A vast library where books rewrite themselves based on Luna's choices, and reading about events can change them in other timelines.
+- **The Cafeteria of Social Dynamics**: Where Luna relives social interactions, but can now see the emotional undercurrents and unspoken thoughts of others.
+- **The Principal's Office of Judgment**: A boss encounter where Luna faces her internalized criticism and perfectionism.
+- **The Gymnasium of Challenges**: Where Luna confronts her physical and emotional limitations through symbolic trials.
 
-**Level 3: The Temporal Nexus (Nightmare Core)**
-- Fractured reality with floating platforms
-- Multiple timeline versions of same spaces
-- Central void where all fears converge
-- Luna's true self at the center
+**Layer 3: The Abstract Plane (REM Sleep - Creativity and Fear)**
+Pure symbolic representation where dream logic dominates:
+- **The City of Metaphors**: An ever-shifting urban landscape where buildings represent emotions and streets are pathways between different aspects of Luna's personality.
+- **The Forest of Symbols**: A dark woodland where trees are memories and their shadows are fears, requiring Luna to navigate by the light of her own inner wisdom.
+- **The Ocean of the Unconscious**: A vast sea containing islands of repressed memories, accessible only by riding temporal currents.
 
-**Connections:**
-- Dream Portals: Swirling temporal vortexes between levels
-- Memory Bridges: Paths that shift based on solved puzzles
-- Time Tears: Shortcuts unlocked by mastering temporal abilities
+**Layer 4: The Nightmare Core (Deep Unconscious - Primal Fears)**
+The darkest realm where Luna's deepest traumas reside:
+- **The Shattered Palace**: Luna's idealized self-image, now broken and twisted, serving as a maze where each room contains a different fear or regret.
+- **The Void of Abandonment**: A black space punctuated by floating islands of memory, where Luna must leap between moments of connection to avoid falling into despair.
+- **The Mirror Labyrinth**: The final area where Luna faces infinite reflections of herself—past, present, future, and alternate versions from different choices.
 
-**Visual Elements:**
-- Floating time fragments showing glimpses of memories
-- Clock towers that bend and twist through dimensions
-- Ethereal mist that flows between connected areas`,
+**Interconnecting Elements:**
+- **Temporal Vortexes**: Swirling portals of light and shadow that connect different layers and time periods
+- **Memory Bridges**: Gossamer walkways that appear when Luna successfully resolves emotional conflicts
+- **Dream Logic Transitions**: Seamless shifts between locations that follow emotional rather than physical geography
+- **Consciousness Currents**: Visible streams of thought and emotion that players can follow to discover hidden areas
+- **Time Anchors**: Stable points in each realm that serve as save points and fast travel locations
+
+**Dynamic Elements:**
+- **Seasonal Cycles**: Each realm shifts through symbolic seasons representing different emotional states
+- **Tidal Effects**: The influence of Luna's waking emotions affects the dream world's stability and accessibility
+- **Echo Chambers**: Areas where past choices create reverberations that open new paths or close others
+- **Lucidity Zones**: Special areas where Luna has maximum control and can reshape the environment`,
       
-      artStyle: `**Ethereal Nightmare Aesthetic**
+      artStyle: `**Ethereal Dreamscape Aesthetic: "Lucid Impressionism"**
 
-**Visual Style:** Surreal photorealism with dreamy distortions
-- **Color Palette:** Deep purples, midnight blues, silver highlights with occasional warm amber for "safe" dream spaces
-- **Lighting:** Dramatic chiaroscuro with supernatural glows emanating from time-distorted objects
-- **Textures:** Soft, flowing fabrics that defy gravity; crystalline time fragments; misty ethereal effects
+**Overall Visual Philosophy:** 
+A hybrid approach combining photorealistic environments with impressionistic dream distortions, creating a visual language that feels both familiar and otherworldly. The art style evolves as Luna descends deeper into her subconscious, becoming more abstract and symbolic.
 
-**Character Design:**
-- Luna: Flowing hair that moves like liquid, eyes that reflect different time periods
-- Shadow Figures: Partially transparent with clock-like internal mechanisms visible
-- Environment: Architecture that bends and morphs, with floating temporal artifacts
+**Color Psychology & Palette:**
+- **Conscious Layer (Observatory Hub)**: Soft pearl whites, gentle silver, and crystalline blues representing clarity and control
+- **Nostalgic Layer**: Warm sepia tones, golden hour lighting, and vintage film grain effects evoking comfort and memory
+- **Scholastic Layer**: Cool academic blues and greens with warm yellow accents from desk lamps and sunlit windows
+- **Abstract Layer**: Vibrant, saturated colors that shift and blend—deep purples, electric teals, and sunset oranges representing pure emotion
+- **Nightmare Core**: Stark contrasts between pitch black voids and brilliant, almost blinding whites, with occasional blood-red accents for trauma markers
 
-**Visual Effects:**
-- Time rewind: Objects trail with ghostly afterimages
-- Time pause: Everything except interactive elements turns monochrome
-- Time acceleration: Motion blur with streaking light effects`,
+**Lighting Design Philosophy:**
+- **Volumetric Dream Light**: All light sources have visible "substance"—beams that can be walked through, shadows that have texture
+- **Emotional Illumination**: Light color and intensity change based on Luna's emotional state and proximity to memories
+- **Temporal Lighting**: Different time periods within the same space are lit with era-appropriate lighting (candles, gas lamps, fluorescents, LEDs)
+- **Consciousness Flares**: Moments of realization create brief, brilliant light bursts that reveal hidden details
+
+**Texture and Material Innovation:**
+- **Memory Fabric**: Surfaces that shimmer and show glimpses of past events when touched by light
+- **Temporal Glass**: Transparent surfaces that show different time periods depending on viewing angle
+- **Emotional Architecture**: Buildings and structures that breathe, pulse, and shift based on the emotional weight of memories they contain
+- **Consciousness Crystallization**: Important moments and realizations manifest as crystal formations with internal light
+
+**Character Design Philosophy:**
+
+**Luna (The Dreamer):**
+- **Physical Evolution**: Her appearance subtly changes between layers—more solid and defined in conscious areas, more ethereal and translucent in deeper dreams
+- **Hair Dynamics**: Hair that moves independently, sometimes defying gravity, with strands that occasionally turn into streams of light or shadow
+- **Eye Reflection System**: Her eyes reflect not just light, but memories, showing glimpses of different time periods and emotional states
+- **Clothing Transformation**: Outfits that morph to match each dream layer—school clothes in academic areas, pajamas in comfort zones, armor in nightmare realms
+
+**Shadow Figures (Memory Echoes):**
+- **Temporal Transparency**: Bodies that exist in multiple time states simultaneously, with past and future selves visible as overlapping silhouettes
+- **Clockwork Hearts**: Visible internal mechanisms representing the emotional rhythms and patterns of relationships
+- **Fragmented Communication**: Speech bubbles that break apart and reassemble, showing how memory distorts conversations
+- **Emotional Auras**: Color-coded glows that reveal the emotional tone of each interaction
+
+**Environmental Character:**
+- **Living Architecture**: Buildings that breathe, walls that pulse with heartbeat rhythms, and doors that appear only when emotionally ready to enter
+- **Temporal Weathering**: Objects showing their age across multiple time periods simultaneously—a chair that's both new and antique
+- **Memory Moss**: Organic growth on surfaces that glows when touched, revealing stored memories in that location
+- **Gravity Defiance**: Floating objects, inverted rooms, and impossible architectural geometries that follow dream logic rather than physics
+
+**Visual Effects Systems:**
+
+**Time Manipulation Visualizations:**
+- **Rewind Echoes**: Multiple ghostly afterimages showing the path of rewound actions, with increasing transparency for older states
+- **Pause Crystallization**: When time stops, everything except interactive elements takes on a crystal-like, frozen appearance with visible faceting
+- **Fast-Forward Trails**: Streaking particle effects and motion blur that leaves luminous trails showing accelerated movement
+- **Timeline Splits**: Reality fractures like broken glass, with each shard showing a different timeline possibility
+
+**Memory Integration Effects:**
+- **Recollection Blooms**: When memories are recovered, they manifest as flowering light patterns that integrate into the environment
+- **Trauma Shadows**: Dark, smoke-like effects that follow traumatic memories, gradually dissipating as they're processed
+- **Healing Radiance**: Warm, golden light that spreads through areas where emotional wounds have been addressed
+- **Connection Threads**: Visible energy lines that connect related memories and experiences across different dream layers
+
+**Atmospheric Enhancements:**
+- **Consciousness Particles**: Tiny motes of light that float through the air, clustering around important objects and memories
+- **Emotional Weather**: Environmental conditions that reflect psychological states—storm clouds for turmoil, gentle rain for sadness, aurora effects for wonder
+- **Dream Fog**: Misty effects that reveal or conceal elements based on Luna's emotional readiness to confront them
+- **Lucidity Halos**: Special effects that appear around objects Luna can directly control, growing stronger as her dream awareness increases
+
+**Technical Innovation:**
+- **Shader Responsiveness**: Materials that respond to player actions and emotional states through advanced shader programming
+- **Procedural Memory Generation**: Environmental details that generate based on player choices and psychological profiles
+- **Adaptive Symbolism**: Visual metaphors that adapt to individual player experiences and cultural backgrounds
+- **Biometric Integration**: Optional heart rate and stress level monitoring to influence visual intensity and color temperature`,
 
       gameLoop: `**Core Game Loop:**
 
@@ -344,35 +416,35 @@ The story explores themes of memory, trauma healing, and the power of facing one
               <div className="grid grid-cols-3 gap-3">
                 <div className="relative group cursor-pointer">
                   <img 
-                    src={gameConcept1} 
-                    alt="Fantasy game concept" 
+                    src={dreamConcept1} 
+                    alt="Surreal dream world with floating islands" 
                     className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A mystical fantasy adventure with magical elements and ethereal environments...')}
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...')}
                   />
                   <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-primary font-medium">Fantasy</span>
+                    <span className="text-xs text-primary font-medium">Dream World</span>
                   </div>
                 </div>
                 <div className="relative group cursor-pointer">
                   <img 
-                    src={gameConcept2} 
-                    alt="Cyberpunk game concept" 
+                    src={dreamConcept2} 
+                    alt="Lucid dreaming with time distortion" 
                     className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A cyberpunk thriller set in a neon-lit futuristic city with high-tech gadgets and dark atmosphere...')}
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A psychological thriller about lucid dreaming with time manipulation mechanics, where memories fragment and reality shifts with each dream layer...')}
                   />
                   <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-accent font-medium">Cyberpunk</span>
+                    <span className="text-xs text-accent font-medium">Lucid Dream</span>
                   </div>
                 </div>
                 <div className="relative group cursor-pointer">
                   <img 
-                    src={gameConcept3} 
-                    alt="Space exploration game concept" 
+                    src={dreamConcept3} 
+                    alt="Nightmare realm with twisted architecture" 
                     className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A space exploration epic featuring alien worlds, advanced spacecraft, and cosmic adventures...')}
+                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A horror-adventure through nightmare realms where players confront psychological fears while navigating twisted dream architecture and temporal anomalies...')}
                   />
                   <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-primary font-medium">Sci-Fi</span>
+                    <span className="text-xs text-primary font-medium">Nightmare</span>
                   </div>
                 </div>
               </div>
