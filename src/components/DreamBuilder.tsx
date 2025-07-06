@@ -25,17 +25,228 @@ export default function DreamBuilder() {
   const [gameIdea, setGameIdea] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
   const [concept, setConcept] = useState<GameConcept | null>(null);
+  const [inspirationImages, setInspirationImages] = useState<string[]>([]);
+  const [generatingImages, setGeneratingImages] = useState(false);
   const { toast } = useToast();
+
+  const generateInspirationImages = async () => {
+    if (!gameIdea.trim()) return;
+    
+    setGeneratingImages(true);
+    
+    // Extract keywords from game idea for image generation
+    const keywords = gameIdea.toLowerCase();
+    const themes = [];
+    
+    if (keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare')) {
+      themes.push('horror nightmare realm with twisted dark architecture');
+    }
+    if (keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval')) {
+      themes.push('fantasy world with magical floating islands and mystical creatures');
+    }
+    if (keywords.includes('sci-fi') || keywords.includes('space') || keywords.includes('futuristic')) {
+      themes.push('futuristic sci-fi landscape with neon lights and cyberpunk aesthetics');
+    }
+    if (keywords.includes('dream') || keywords.includes('surreal') || keywords.includes('abstract')) {
+      themes.push('surreal dreamscape with ethereal floating elements and cosmic void');
+    }
+    if (keywords.includes('ocean') || keywords.includes('underwater') || keywords.includes('sea')) {
+      themes.push('underwater world with bioluminescent creatures and coral cities');
+    }
+    if (keywords.includes('forest') || keywords.includes('nature') || keywords.includes('jungle')) {
+      themes.push('mystical forest with glowing trees and magical creatures');
+    }
+    
+    // Default themes if no specific keywords found
+    if (themes.length === 0) {
+      themes.push(
+        'surreal dreamscape with floating islands in cosmic void',
+        'mystical world with ethereal lighting and fantasy elements',
+        'atmospheric game environment with unique visual style'
+      );
+    }
+    
+    // Ensure we have exactly 3 themes
+    while (themes.length < 3) {
+      themes.push('creative game world with unique artistic style and atmosphere');
+    }
+    themes.splice(3); // Keep only first 3
+    
+    try {
+      const imagePromises = themes.map(async (theme, index) => {
+        try {
+          await generate_image({
+            prompt: `${theme}, game concept art style, detailed environment, beautiful lighting, ultra high resolution`,
+            width: 512,
+            height: 320,
+            model: 'flux.schnell',
+            target_path: `src/assets/generated-concept-${index + 1}.jpg`
+          });
+          return `src/assets/generated-concept-${index + 1}.jpg`;
+        } catch (error) {
+          console.error(`Error generating image ${index + 1}:`, error);
+          return [dreamConcept1, dreamConcept2, dreamConcept3][index] || dreamConcept1;
+        }
+      });
+      
+      const generatedImages = await Promise.all(imagePromises);
+      setInspirationImages(generatedImages);
+      
+    } catch (error) {
+      console.error('Error generating images:', error);
+      // Fallback to default images
+      setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
+    }
+    
+    setGeneratingImages(false);
+  };
 
   const generateConcept = async () => {
     if (!gameIdea.trim()) return;
     
     setIsGenerating(true);
     
+    // Generate inspiration images first
+    await generateInspirationImages();
+    
     // Simulate generation process
     await new Promise(resolve => setTimeout(resolve, 3000));
     
-    // Mock concept generation
+    // Extract themes and keywords from game idea for dynamic content
+    const keywords = gameIdea.toLowerCase();
+    const themes = {
+      isHorror: keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare'),
+      isFantasy: keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval'),
+      isSciFi: keywords.includes('sci-fi') || keywords.includes('space') || keywords.includes('futuristic'),
+      isDream: keywords.includes('dream') || keywords.includes('surreal') || keywords.includes('lucid'),
+      hasTime: keywords.includes('time') || keywords.includes('temporal') || keywords.includes('rewind'),
+      isPuzzle: keywords.includes('puzzle') || keywords.includes('solve') || keywords.includes('challenge'),
+      isOcean: keywords.includes('ocean') || keywords.includes('underwater') || keywords.includes('sea')
+    };
+    
+    // Generate dynamic world map based on themes
+    let worldMapContent = '';
+    if (themes.isHorror) {
+      worldMapContent = `**World Map Design: The Fractured Realms - A Horror Landscape Architecture**
+
+**Central Hub: The Nightmare Nexus**
+A decrepit asylum floating in an endless void of shadow and whispers. This serves as the player's base where fragments of sanity can be restored. The asylum features:
+- **The Shattered Mirror Hall**: Reflects different nightmare realms, each more terrifying than the last
+- **The Memory Ward**: Padded rooms containing suppressed traumatic memories
+- **The Surgery Theater**: Where the player can "operate" on their fears and phobias
+- **The Basement Archives**: Contains case files of other victims who never escaped
+
+**Realm 1: The Suburban Hellscape**
+A twisted version of childhood neighborhoods where houses breathe and streets lead in impossible directions:
+- **The Childhood Home**: Rooms that age and decay as traumatic memories surface
+- **The School of Screams**: Hallways that stretch infinitely, classrooms filled with shadow children
+- **The Playground of Bones**: Swing sets that move on their own, slides that descend into darkness
+
+**Realm 2: The Industrial Nightmare**
+Massive factories and machinery that process fear itself:
+- **The Fear Factory**: Conveyor belts carrying bottled screams and crystallized terror
+- **The Boiler Room of Regrets**: Steam pipes that whisper past mistakes
+- **The Executive Penthouse**: Where the Nightmare CEO resides, orchestrating all fears`;
+    } else if (themes.isFantasy) {
+      worldMapContent = `**World Map Design: The Enchanted Realms - A Fantasy World Architecture**
+
+**Central Hub: The Arcane Sanctuary**
+A floating tower of crystalline magic suspended between dimensions. This mystical spire serves as the player's magical base:
+- **The Spell Forge**: Where new magical abilities are crafted and enhanced
+- **The Divination Pool**: Reveals glimpses of other realms and hidden secrets
+- **The Familiar's Roost**: Home to magical companions and spirit guides
+- **The Portal Chamber**: Swirling gateways to different magical dimensions
+
+**Realm 1: The Evergreen Expanse**
+Ancient forests where trees are millennia old and magic flows like rivers:
+- **The Whispering Grove**: Trees that share ancient wisdom and forgotten spells
+- **The Fairy Crossing**: Bridges made of moonbeams connecting treetop villages
+- **The Dragon's Glen**: A clearing where time moves differently, guarded by ancient wyrms
+
+**Realm 2: The Crystal Caverns**
+Underground networks of gemstone formations that amplify magical energy:
+- **The Singing Crystals**: Caverns that resonate with musical magic
+- **The Underground Lake**: Waters that reflect not your image, but your soul
+- **The Throne of Elements**: Where the four elemental kings hold court`;
+    } else {
+      worldMapContent = `**World Map Design: The Consciousness Continuum - A Unique Dream Architecture**
+
+**Central Hub: The Mind's Observatory**  
+A crystalline structure floating in the space between thoughts, serving as the nexus of all mental activity:
+- **The Idea Incubator**: Where new concepts are born and nurtured
+- **The Memory Bank**: Vast halls storing every experience and emotion
+- **The Decision Tree**: A living structure that branches with every choice made
+- **The Dream Portal**: Gateway to subconscious realms and hidden desires
+
+**Layer 1: The Familiar Territory**
+Represents known experiences and comfort zones, but with subtle impossibilities:
+- **The Hometown Paradox**: Streets that connect in impossible ways, buildings that exist in multiple time periods
+- **The Social Sphere**: Cafes and gathering places where conversations shape reality
+- **The Comfort Bubble**: Safe spaces that expand or contract based on confidence levels
+
+**Layer 2: The Unknown Frontier**
+Represents growth, learning, and stepping into the unfamiliar:
+- **The Library of What-Ifs**: Books containing all the paths not taken
+- **The Skill Gardens**: Where abilities grow like plants, requiring nurturing and care
+- **The Challenge Mountains**: Peaks that represent personal goals and aspirations`;
+    }
+    
+    // Generate dynamic art style based on themes
+    let artStyleContent = '';
+    if (themes.isHorror) {
+      artStyleContent = `**Visceral Terror Aesthetic: "Psychological Realism with Nightmare Distortion"**
+
+**Overall Visual Philosophy:**
+A grounding in photorealistic environments that gradually distort into nightmarish impossibilities. The art style shifts from familiar comfort to unsettling wrongness, using uncanny valley effects to create deep psychological discomfort.
+
+**Color Psychology & Palette:**
+- **Safe Zones**: Warm, muted colors that gradually drain of saturation as danger approaches
+- **Transition Areas**: Sickly greens and jaundiced yellows that make everything look diseased
+- **Nightmare Cores**: Deep crimsons and pitch blacks with occasional stark white highlights for jump scares
+- **Memory Fragments**: Sepia tones that flicker between normal and grotesquely distorted
+
+**Lighting Design Philosophy:**
+- **Flickering Fluorescents**: Unstable lighting that creates moving shadows and blind spots
+- **Candle Horror**: Warm light sources that create dancing, threatening shadows
+- **Strobe Panic**: Sudden bright flashes that reveal horrors in the darkness
+- **Void Illumination**: Light that seems to be absorbed by certain areas, creating impossible darkness`;
+    } else if (themes.isSciFi) {
+      artStyleContent = `**Cybernetic Dream Aesthetic: "Neo-Digital Surrealism"**
+
+**Overall Visual Philosophy:**
+A fusion of sleek digital interfaces with organic dream logic, creating environments that feel both technologically advanced and mysteriously alive. Data streams become rivers, code becomes architecture.
+
+**Color Psychology & Palette:**
+- **Interface Zones**: Electric blues, neon greens, and holographic purples representing digital clarity
+- **Data Streams**: Flowing rivers of light in cyan and magenta that carry information
+- **System Errors**: Glitchy reds and static whites that indicate corrupted memories or damaged code
+- **Deep Net**: Dark blues and blacks punctuated by nodes of brilliant white representing consciousness
+
+**Lighting Design Philosophy:**
+- **Holographic Illumination**: Light that can be touched and manipulated like solid objects
+- **Data Glow**: Information that emits its own light, creating reading lamps from pure knowledge
+- **System Lighting**: Environmental elements that pulse with the rhythm of digital heartbeats
+- **Quantum Flicker**: Light that exists in multiple states simultaneously, creating ethereal effects`;
+    } else {
+      artStyleContent = `**Ethereal Consciousness Aesthetic: "Lucid Impressionism"**
+
+**Overall Visual Philosophy:**
+A hybrid approach combining photorealistic environments with impressionistic dream distortions, creating a visual language that feels both familiar and otherworldly. The art style evolves dynamically based on the player's emotional state and level of awareness.
+
+**Color Psychology & Palette:**
+- **Conscious States**: Soft pearl whites, gentle silvers, and crystalline blues representing clarity and control
+- **Emotional Layers**: Colors that shift and blend based on feelings - warm oranges for joy, cool purples for sadness
+- **Memory Zones**: Vintage film tones with sepia and golden hour lighting evoking nostalgia
+- **Abstract Realms**: Vibrant, saturated colors that defy natural logic - electric teals, sunset magentas
+
+**Lighting Design Philosophy:**
+- **Volumetric Dream Light**: All light sources have visible substance - beams that can be walked through
+- **Emotional Illumination**: Light that changes color and intensity based on psychological state
+- **Temporal Lighting**: Different eras of lighting coexisting in the same space
+- **Consciousness Flares**: Moments of realization create brilliant light bursts revealing hidden truths`;
+    }
+    
+    // Mock concept generation with dynamic content
     const mockConcept: GameConcept = {
       plotline: `**The Dreamer's Paradox: A Journey Through Consciousness**
 
@@ -412,41 +623,32 @@ A hybrid approach combining photorealistic environments with impressionistic dre
           <CardContent className="space-y-4">
             {/* Game Inspiration Gallery */}
             <div className="mb-4">
-              <h4 className="text-sm font-medium mb-3 text-muted-foreground">Game Inspiration Gallery</h4>
+              <h4 className="text-sm font-medium mb-3 text-muted-foreground">
+                Game Inspiration Gallery {generatingImages && <span className="text-primary">(Generating...)</span>}
+              </h4>
               <div className="grid grid-cols-3 gap-3">
-                <div className="relative group cursor-pointer">
-                  <img 
-                    src={dreamConcept1} 
-                    alt="Surreal dream world with floating islands" 
-                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...')}
-                  />
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-primary font-medium">Dream World</span>
+                {(inspirationImages.length > 0 ? inspirationImages : [dreamConcept1, dreamConcept2, dreamConcept3]).map((image, index) => (
+                  <div key={index} className="relative group cursor-pointer">
+                    <img 
+                      src={image} 
+                      alt={`Game concept inspiration ${index + 1}`}
+                      className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
+                      onClick={() => {
+                        const inspirationTexts = [
+                          'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...',
+                          'A psychological thriller about lucid dreaming with time manipulation mechanics, where memories fragment and reality shifts with each dream layer...',
+                          'A horror-adventure through nightmare realms where players confront psychological fears while navigating twisted dream architecture and temporal anomalies...'
+                        ];
+                        setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + inspirationTexts[index]);
+                      }}
+                    />
+                    <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
+                      <span className="text-xs text-primary font-medium">
+                        {index === 0 ? 'Dream World' : index === 1 ? 'Lucid Dream' : 'Nightmare'}
+                      </span>
+                    </div>
                   </div>
-                </div>
-                <div className="relative group cursor-pointer">
-                  <img 
-                    src={dreamConcept2} 
-                    alt="Lucid dreaming with time distortion" 
-                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A psychological thriller about lucid dreaming with time manipulation mechanics, where memories fragment and reality shifts with each dream layer...')}
-                  />
-                  <div className="absolute inset-0 bg-accent/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-accent font-medium">Lucid Dream</span>
-                  </div>
-                </div>
-                <div className="relative group cursor-pointer">
-                  <img 
-                    src={dreamConcept3} 
-                    alt="Nightmare realm with twisted architecture" 
-                    className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-colors"
-                    onClick={() => setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + 'A horror-adventure through nightmare realms where players confront psychological fears while navigating twisted dream architecture and temporal anomalies...')}
-                  />
-                  <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity rounded-lg flex items-center justify-center">
-                    <span className="text-xs text-primary font-medium">Nightmare</span>
-                  </div>
-                </div>
+                ))}
               </div>
               <p className="text-xs text-muted-foreground mt-2">Click on any image to add inspiration to your game idea</p>
             </div>
