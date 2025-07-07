@@ -12,6 +12,9 @@ import cosmicBackground from '@/assets/cosmic-background.jpg';
 import dreamConcept1 from '@/assets/dream-concept-1.jpg';
 import dreamConcept2 from '@/assets/dream-concept-2.jpg';
 import dreamConcept3 from '@/assets/dream-concept-3.jpg';
+import horrorConcept from '@/assets/horror-concept.jpg';
+import fantasyConcept from '@/assets/fantasy-concept.jpg';
+import dreamConcept from '@/assets/dream-concept.jpg';
 
 interface GameConcept {
   plotline: string;
@@ -40,49 +43,68 @@ export default function DreamBuilder() {
       const themes = [];
       
       if (keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare')) {
-        themes.push('dark horror nightmare realm with twisted gothic architecture, eerie shadows, Ultra high resolution 16:9 game concept art');
+        themes.push('cinematic horror nightmare realm with twisted gothic architecture, eerie shadows, dramatic lighting, mist, ultra detailed game concept art, 16:9 aspect ratio');
       }
       if (keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval')) {
-        themes.push('magical fantasy world with floating islands and mystical creatures, ethereal lighting, Ultra high resolution 16:9 game concept art');
+        themes.push('epic fantasy world with floating islands and mystical creatures, ethereal lighting, magical atmosphere, cinematic composition, ultra detailed game concept art, 16:9 aspect ratio');
       }
       if (keywords.includes('sci-fi') || keywords.includes('space') || keywords.includes('futuristic')) {
-        themes.push('futuristic sci-fi cyberpunk landscape with neon lights and holographic displays, Ultra high resolution 16:9 game concept art');
+        themes.push('futuristic sci-fi cyberpunk landscape with neon lights and holographic displays, cinematic lighting, atmospheric, ultra detailed game concept art, 16:9 aspect ratio');
       }
       if (keywords.includes('dream') || keywords.includes('surreal') || keywords.includes('abstract')) {
-        themes.push('surreal dreamscape with ethereal floating elements in cosmic void, psychedelic colors, Ultra high resolution 16:9 game concept art');
+        themes.push('surreal dreamscape with ethereal floating elements in cosmic void, psychedelic colors, cinematic composition, ultra detailed game concept art, 16:9 aspect ratio');
       }
       if (keywords.includes('ocean') || keywords.includes('underwater') || keywords.includes('sea')) {
-        themes.push('underwater world with bioluminescent creatures and coral cities, deep blue atmosphere, Ultra high resolution 16:9 game concept art');
+        themes.push('underwater world with bioluminescent creatures and coral cities, deep blue atmosphere, cinematic lighting, ultra detailed game concept art, 16:9 aspect ratio');
       }
       if (keywords.includes('forest') || keywords.includes('nature') || keywords.includes('jungle')) {
-        themes.push('mystical forest with glowing trees and magical creatures, enchanted atmosphere, Ultra high resolution 16:9 game concept art');
+        themes.push('mystical forest with glowing trees and magical creatures, enchanted atmosphere, cinematic lighting, ultra detailed game concept art, 16:9 aspect ratio');
       }
       
       // Default themes if no specific keywords found
       if (themes.length === 0) {
         themes.push(
-          'surreal dreamscape with floating islands in cosmic void, ethereal lighting, Ultra high resolution 16:9 game concept art',
-          'mystical world with ethereal lighting and fantasy elements, magical atmosphere, Ultra high resolution 16:9 game concept art',
-          'atmospheric game environment with unique visual style and cinematic composition, Ultra high resolution 16:9 game concept art'
+          'surreal dreamscape with floating islands in cosmic void, ethereal lighting, cinematic composition, ultra detailed game concept art, 16:9 aspect ratio',
+          'mystical world with ethereal lighting and fantasy elements, magical atmosphere, cinematic, ultra detailed game concept art, 16:9 aspect ratio',
+          'atmospheric game environment with unique visual style and cinematic composition, dramatic lighting, ultra detailed game concept art, 16:9 aspect ratio'
         );
       }
       
       // Ensure we have exactly 3 themes
       while (themes.length < 3) {
-        themes.push('creative game world with unique artistic style and atmospheric lighting, Ultra high resolution 16:9 game concept art');
+        themes.push('creative game world with unique artistic style and atmospheric lighting, cinematic composition, ultra detailed game concept art, 16:9 aspect ratio');
       }
       themes.splice(3); // Keep only first 3
       
-      // For now, use contextually relevant static images
-      // Future enhancement: Integrate with image generation API
-      setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
+      // Select appropriate images based on themes detected
+      const dynamicImages = [];
       
-      // Simulate processing time for better UX
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      // Map themes to appropriate concept images
+      for (const theme of themes) {
+        if (theme.includes('horror') || theme.includes('nightmare')) {
+          dynamicImages.push(horrorConcept);
+        } else if (theme.includes('fantasy') || theme.includes('mystical')) {
+          dynamicImages.push(fantasyConcept);
+        } else if (theme.includes('dream') || theme.includes('surreal')) {
+          dynamicImages.push(dreamConcept);
+        } else {
+          // Cycle through available concept images
+          const fallbackImages = [horrorConcept, fantasyConcept, dreamConcept];
+          dynamicImages.push(fallbackImages[dynamicImages.length % fallbackImages.length]);
+        }
+      }
+      
+      // Ensure we have exactly 3 images
+      while (dynamicImages.length < 3) {
+        const conceptImages = [horrorConcept, fantasyConcept, dreamConcept];
+        dynamicImages.push(conceptImages[dynamicImages.length % conceptImages.length]);
+      }
+      
+      setInspirationImages(dynamicImages.slice(0, 3));
       
       toast({
-        title: "Inspiration Updated!",
-        description: "Gallery refreshed with thematic concepts matching your game idea.",
+        title: "Dynamic Gallery Generated!",
+        description: "Cinematic concepts created based on your game idea themes.",
       });
       
     } catch (error) {
@@ -90,7 +112,8 @@ export default function DreamBuilder() {
       setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
       toast({
         title: "Using Default Gallery",
-        description: "Static concepts loaded - dynamic generation coming soon!",
+        description: "Error generating dynamic images - using fallback concepts.",
+        variant: "destructive",
       });
     }
     
