@@ -1,10 +1,13 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Sparkles, Gamepad2, Map, Palette, Settings, Layout, Loader2, Download, FileText } from 'lucide-react';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Sparkles, Gamepad2, Map, Palette, Settings, Layout, Loader2, Download, FileText, Brain, BookOpen } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
@@ -24,8 +27,82 @@ interface GameConcept {
   uiSketches: string;
 }
 
+interface GDDTemplate {
+  gameTitle: string;
+  gameGenre: string;
+  inspiration: string;
+  oneLinerPitch: string;
+  setting: string;
+  worldStructure: string;
+  loreBackstory: string;
+  factionsCultures: string;
+  mainStoryline: string;
+  mainCharacters: string;
+  supportingCharacters: string;
+  antagonist: string;
+  coreGameplayLoop: string;
+  combatMechanics: string;
+  explorationMovement: string;
+  inventoryProgression: string;
+  multiplayerMode: string;
+  uniqueFeatures: string;
+  artStyle: string;
+  colorPalette: string;
+  uiuxConcepts: string;
+  characterEnvironmentDesign: string;
+  musicGenre: string;
+  soundDesign: string;
+  voiceActing: string;
+  playerProgression: string;
+  achievementsTrophies: string;
+  replayValue: string;
+  innovationElement: string;
+  targetPlatforms: string;
+  monetizationModel: string;
+  onlineOfflineCapabilities: string;
+  targetAudience: string;
+  accessibilityConsiderations: string;
+}
+
 export default function DreamBuilder() {
   const [gameIdea, setGameIdea] = useState('');
+  const [inputMode, setInputMode] = useState<'freeform' | 'template'>('freeform');
+  const [gddTemplate, setGDDTemplate] = useState<GDDTemplate>({
+    gameTitle: '',
+    gameGenre: '',
+    inspiration: '',
+    oneLinerPitch: '',
+    setting: '',
+    worldStructure: '',
+    loreBackstory: '',
+    factionsCultures: '',
+    mainStoryline: '',
+    mainCharacters: '',
+    supportingCharacters: '',
+    antagonist: '',
+    coreGameplayLoop: '',
+    combatMechanics: '',
+    explorationMovement: '',
+    inventoryProgression: '',
+    multiplayerMode: '',
+    uniqueFeatures: '',
+    artStyle: '',
+    colorPalette: '',
+    uiuxConcepts: '',
+    characterEnvironmentDesign: '',
+    musicGenre: '',
+    soundDesign: '',
+    voiceActing: '',
+    playerProgression: '',
+    achievementsTrophies: '',
+    replayValue: '',
+    innovationElement: '',
+    targetPlatforms: '',
+    monetizationModel: '',
+    onlineOfflineCapabilities: '',
+    targetAudience: '',
+    accessibilityConsiderations: '',
+  });
   const [isGenerating, setIsGenerating] = useState(false);
   const [concept, setConcept] = useState<GameConcept | null>(null);
   const [inspirationImages, setInspirationImages] = useState<string[]>([]);
@@ -121,18 +198,23 @@ export default function DreamBuilder() {
   };
 
   const generateConcept = async () => {
-    if (!gameIdea.trim()) return;
+    if (inputMode === 'freeform' && !gameIdea.trim()) return;
+    if (inputMode === 'template' && !gddTemplate.gameTitle.trim()) return;
     
     setIsGenerating(true);
     
-    // Generate inspiration images first
-    await generateInspirationImages();
+    // Generate inspiration images first (for freeform mode)
+    if (inputMode === 'freeform') {
+      await generateInspirationImages();
+    }
     
     // Simulate generation process
     await new Promise(resolve => setTimeout(resolve, 3000));
     
     // Extract themes and keywords from game idea for dynamic content
-    const keywords = gameIdea.toLowerCase();
+    const sourceText = inputMode === 'freeform' ? gameIdea : 
+      `${gddTemplate.gameTitle} ${gddTemplate.gameGenre} ${gddTemplate.oneLinerPitch} ${gddTemplate.setting} ${gddTemplate.mainStoryline} ${gddTemplate.uniqueFeatures} ${gddTemplate.innovationElement}`;
+    const keywords = sourceText.toLowerCase();
     const themes = {
       isHorror: keywords.includes('horror') || keywords.includes('scary') || keywords.includes('nightmare'),
       isFantasy: keywords.includes('fantasy') || keywords.includes('magic') || keywords.includes('medieval'),
@@ -290,7 +372,26 @@ An evolutionary art style that seamlessly blends photorealistic precision with i
     
     // Mock concept generation with dynamic content
     const mockConcept: GameConcept = {
-      plotline: `**The Dreamer's Paradox: A Journey Through Consciousness**
+      plotline: inputMode === 'template' && gddTemplate.mainStoryline ? 
+        `**${gddTemplate.gameTitle || 'Your Dream Game'}: ${gddTemplate.oneLinerPitch || 'An Epic Adventure'}**
+
+${gddTemplate.mainStoryline}
+
+**Main Characters:**
+${gddTemplate.mainCharacters || 'Compelling characters to be developed...'}
+
+**Supporting Cast:**
+${gddTemplate.supportingCharacters || 'Rich supporting characters that enhance the narrative...'}
+
+**Antagonist:**
+${gddTemplate.antagonist || 'A formidable challenge that drives the conflict...'}
+
+**Game World Lore:**
+${gddTemplate.loreBackstory || 'A rich history that gives depth to your game world...'}
+
+**Inspiration Sources:**
+${gddTemplate.inspiration || 'Drawing from various creative influences...'}` :
+        `**The Dreamer's Paradox: A Journey Through Consciousness**
 
 You embody Luna, a gifted lucid dreamer whose ability to manipulate time within dreamscapes becomes both her greatest power and her most dangerous curse. After a traumatic event fragments her consciousness, Luna finds herself trapped in an endless cycle of recursive nightmares, each layer deeper and more treacherous than the last.
 
@@ -311,10 +412,60 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
 
 **Themes:** The game explores deep psychological themes including trauma processing, the nature of memory and identity, the courage required for healing, and the philosophical question of whether ignorance is truly bliss. It challenges players to confront difficult truths while offering hope for recovery and growth.`,
       
-      worldMap: worldMapContent,
-      artStyle: artStyleContent,
+      worldMap: inputMode === 'template' && gddTemplate.setting ? 
+        `**World Design: ${gddTemplate.gameTitle || 'Your Game World'}**
 
-      gameLoop: `**Core Game Loop:**
+**Setting & Environment:**
+${gddTemplate.setting}
+
+**World Structure:**
+${gddTemplate.worldStructure ? `This game features a ${gddTemplate.worldStructure} structure, ` : ''}${gddTemplate.loreBackstory ? `built upon the rich lore: ${gddTemplate.loreBackstory}` : 'with carefully designed progression and exploration.'}
+
+**Factions & Cultures:**
+${gddTemplate.factionsCultures || 'Diverse groups that add depth and conflict to the world...'}
+
+**Exploration & Movement:**
+${gddTemplate.explorationMovement || 'Intuitive movement and exploration systems that enhance player engagement...'}` :
+        worldMapContent,
+      
+      artStyle: inputMode === 'template' && gddTemplate.artStyle ? 
+        `**Visual Design Direction: ${gddTemplate.artStyle} Aesthetic**
+
+**Core Art Style:**
+${gddTemplate.artStyle} with ${gddTemplate.colorPalette} color palette, creating a distinctive visual identity.
+
+**Character & Environment Design:**
+${gddTemplate.characterEnvironmentDesign || 'Carefully crafted character and environment designs that support the game\'s narrative and gameplay...'}
+
+**UI/UX Concepts:**
+${gddTemplate.uiuxConcepts || 'Intuitive interface design that complements the art style and enhances player experience...'}
+
+**Audio Integration:**
+Music: ${gddTemplate.musicGenre || 'Atmospheric soundtrack'}
+Sound Design: ${gddTemplate.soundDesign || 'Immersive audio that enhances gameplay'}
+Voice Acting: ${gddTemplate.voiceActing || 'Professional voice work to bring characters to life'}` :
+        artStyleContent,
+
+      gameLoop: inputMode === 'template' && gddTemplate.coreGameplayLoop ? 
+        `**Core Gameplay Loop:**
+${gddTemplate.coreGameplayLoop}
+
+**Combat Mechanics:**
+${gddTemplate.combatMechanics || 'Engaging combat systems that complement the core gameplay...'}
+
+**Inventory & Progression:**
+${gddTemplate.inventoryProgression || 'Satisfying progression systems that reward player investment...'}
+
+**Player Progression:**
+${gddTemplate.playerProgression || 'Meaningful advancement that enhances capabilities and unlocks new content...'}
+
+**Achievements & Replay Value:**
+${gddTemplate.achievementsTrophies || 'Compelling achievements that encourage exploration...'}
+${gddTemplate.replayValue || 'Features that make players want to experience the game multiple times...'}
+
+**Multiplayer Integration:**
+${gddTemplate.multiplayerMode || 'Single-player experience with potential for community features...'}` :
+        `**Core Game Loop:**
 
 1. **Exploration Phase** (30-60 seconds)
    - Player navigates dream environment
@@ -343,7 +494,30 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
 
 **Meta Loop:** Complete 3-5 puzzle sequences → Boss encounter with major temporal challenge → Story revelation → Descend to deeper dream layer`,
 
-      uiSketches: `**Advanced UI/UX Design Architecture**
+      uiSketches: inputMode === 'template' ? 
+        `**UI/UX Design & Implementation**
+
+**Platform Considerations:**
+Target Platforms: ${gddTemplate.targetPlatforms || 'Multi-platform design approach'}
+
+**Monetization Integration:**
+${gddTemplate.monetizationModel || 'Ethical monetization that enhances rather than detracts from player experience'}
+
+**Accessibility Features:**
+${gddTemplate.accessibilityConsiderations || 'Comprehensive accessibility options to ensure all players can enjoy the game'}
+
+**Target Audience Focus:**
+${gddTemplate.targetAudience || 'Designed for a broad audience with scalable complexity'}
+
+**Innovation Showcase:**
+${gddTemplate.innovationElement || 'Unique features that differentiate this game from others in the genre'}
+
+**Online/Offline Capabilities:**
+${gddTemplate.onlineOfflineCapabilities || 'Flexible connectivity options that work for all players'}
+
+**UI Concepts:**
+${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complements the overall aesthetic'}` :
+        `**Advanced UI/UX Design Architecture**
 
 **🎨 Main Menu Interface Design:**
 - **Ethereal Title Screen**: Floating logo with particle system animation using CSS transforms and opacity transitions
@@ -545,88 +719,433 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
         {/* Input Section */}
         <Card className="mb-8 bg-gradient-card border-primary/20">
           <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5" />
-              Describe Your Dream Game
-            </CardTitle>
-            <CardDescription>
-              Be as creative and detailed as you want. Think themes, mechanics, story, atmosphere...
-            </CardDescription>
+            <div className="flex items-center justify-between">
+              <div>
+                <CardTitle className="flex items-center gap-2">
+                  <Sparkles className="h-5 w-5" />
+                  Create Your Dream Game
+                </CardTitle>
+                <CardDescription>
+                  Choose your preferred input method: free-form description or structured template
+                </CardDescription>
+              </div>
+              <div className="flex items-center gap-2 bg-muted/20 p-1 rounded-lg">
+                <Button
+                  size="sm"
+                  variant={inputMode === 'freeform' ? 'default' : 'ghost'}
+                  onClick={() => setInputMode('freeform')}
+                  className="h-8 px-3"
+                >
+                  <BookOpen className="h-3 w-3 mr-1" />
+                  Free Form
+                </Button>
+                <Button
+                  size="sm"
+                  variant={inputMode === 'template' ? 'default' : 'ghost'}
+                  onClick={() => setInputMode('template')}
+                  className="h-8 px-3"
+                >
+                  <Brain className="h-3 w-3 mr-1" />
+                  GDD Template
+                </Button>
+              </div>
+            </div>
           </CardHeader>
           <CardContent className="space-y-4">
-            {/* Game Inspiration Gallery */}
-            <div className="mb-4">
-              <div className="flex items-center justify-between mb-3">
-                <h4 className="text-sm font-medium text-muted-foreground">
-                  Dynamic Inspiration Gallery
-                </h4>
-                <div className="flex items-center gap-2">
-                  {generatingImages && (
-                    <div className="flex items-center gap-1 text-xs text-primary">
-                      <Loader2 className="h-3 w-3 animate-spin" />
-                      <span>Generating...</span>
-                    </div>
-                  )}
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={generateInspirationImages}
-                    disabled={!gameIdea.trim() || generatingImages}
-                    className="text-xs h-6 px-2"
-                  >
-                    <Sparkles className="h-3 w-3" />
-                    Refresh
-                  </Button>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                {(inspirationImages.length > 0 ? inspirationImages : [dreamConcept1, dreamConcept2, dreamConcept3]).map((image, index) => (
-                  <div key={index} className="relative group cursor-pointer">
-                    <img 
-                      src={image} 
-                      alt={`Game concept inspiration ${index + 1}`}
-                      className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-primary"
-                      onClick={() => {
-                        const inspirationTexts = [
-                          'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...',
-                          'A psychological thriller about lucid dreaming with time manipulation mechanics, where memories fragment and reality shifts with each dream layer...',
-                          'A horror-adventure through nightmare realms where players confront psychological fears while navigating twisted dream architecture and temporal anomalies...'
-                        ];
-                        setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + inspirationTexts[index]);
-                      }}
-                    />
-                    <div className="absolute inset-0 bg-gradient-cosmic/20 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg flex items-center justify-center backdrop-blur-sm">
-                      <div className="text-center">
-                        <span className="text-xs text-white font-medium block">
-                          {index === 0 ? '🌌 Dream World' : index === 1 ? '✨ Lucid Dream' : '👁️ Nightmare'}
-                        </span>
-                        <span className="text-xs text-white/70 mt-1 block">Click to inspire</span>
-                      </div>
+            {inputMode === 'freeform' ? (
+              <>
+                {/* Game Inspiration Gallery */}
+                <div className="mb-4">
+                  <div className="flex items-center justify-between mb-3">
+                    <h4 className="text-sm font-medium text-muted-foreground">
+                      Dynamic Inspiration Gallery
+                    </h4>
+                    <div className="flex items-center gap-2">
+                      {generatingImages && (
+                        <div className="flex items-center gap-1 text-xs text-primary">
+                          <Loader2 className="h-3 w-3 animate-spin" />
+                          <span>Generating...</span>
+                        </div>
+                      )}
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={generateInspirationImages}
+                        disabled={!gameIdea.trim() || generatingImages}
+                        className="text-xs h-6 px-2"
+                      >
+                        <Sparkles className="h-3 w-3" />
+                        Refresh
+                      </Button>
                     </div>
                   </div>
-                ))}
+                  <div className="grid grid-cols-3 gap-3">
+                    {(inspirationImages.length > 0 ? inspirationImages : [dreamConcept1, dreamConcept2, dreamConcept3]).map((image, index) => (
+                      <div key={index} className="relative group cursor-pointer">
+                        <img 
+                          src={image} 
+                          alt={`Game concept inspiration ${index + 1}`}
+                          className="w-full h-20 object-cover rounded-lg border border-primary/20 group-hover:border-primary/40 transition-all duration-300 group-hover:scale-105 group-hover:shadow-glow-primary"
+                          onClick={() => {
+                            const inspirationTexts = [
+                              'A surreal dream adventure where players navigate floating islands in cosmic voids, manipulating reality through lucid dreaming powers...',
+                              'A psychological thriller about lucid dreaming with time manipulation mechanics, where memories fragment and reality shifts with each dream layer...',
+                              'A horror-adventure through nightmare realms where players confront psychological fears while navigating twisted dream architecture and temporal anomalies...'
+                            ];
+                            setGameIdea(gameIdea + (gameIdea ? '\n\n' : '') + inspirationTexts[index]);
+                          }}
+                        />
+                        <div className="absolute inset-0 bg-gradient-cosmic/20 opacity-0 group-hover:opacity-100 transition-all duration-300 rounded-lg flex items-center justify-center backdrop-blur-sm">
+                          <div className="text-center">
+                            <span className="text-xs text-white font-medium block">
+                              {index === 0 ? '🌌 Dream World' : index === 1 ? '✨ Lucid Dream' : '👁️ Nightmare'}
+                            </span>
+                            <span className="text-xs text-white/70 mt-1 block">Click to inspire</span>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
+                    <Sparkles className="h-3 w-3" />
+                    Images generate based on your dream themes - try different keywords!
+                  </p>
+                </div>
+                
+                <Textarea
+                  placeholder="Example: A horror game where you can control time and solve puzzles in dreams..."
+                  value={gameIdea}
+                  onChange={(e) => setGameIdea(e.target.value)}
+                  className="min-h-32 bg-background/50 border-primary/20 focus:border-primary/40"
+                />
+                <div className="flex gap-2 flex-wrap">
+                  <Badge variant="secondary">Horror</Badge>
+                  <Badge variant="secondary">Time Control</Badge>
+                  <Badge variant="secondary">Puzzle</Badge>
+                  <Badge variant="secondary">Dreams</Badge>
+                </div>
+              </>
+            ) : (
+              <div className="space-y-6">
+                <div className="text-center p-4 bg-muted/20 rounded-lg">
+                  <Brain className="h-8 w-8 mx-auto mb-2 text-primary" />
+                  <h3 className="font-semibold mb-2">Comprehensive Game Design Template</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Fill out as many sections as you'd like. Each section helps create a more detailed design document.
+                  </p>
+                </div>
+
+                <Tabs defaultValue="concept" className="w-full">
+                  <TabsList className="grid w-full grid-cols-5">
+                    <TabsTrigger value="concept">🧠 Concept</TabsTrigger>
+                    <TabsTrigger value="world">🌍 World</TabsTrigger>
+                    <TabsTrigger value="story">🎭 Story</TabsTrigger>
+                    <TabsTrigger value="gameplay">🕹️ Gameplay</TabsTrigger>
+                    <TabsTrigger value="technical">🎨 Technical</TabsTrigger>
+                  </TabsList>
+
+                  <TabsContent value="concept" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="gameTitle">Game Title</Label>
+                        <Input
+                          id="gameTitle"
+                          placeholder="Enter your game title..."
+                          value={gddTemplate.gameTitle}
+                          onChange={(e) => setGDDTemplate(prev => ({ ...prev, gameTitle: e.target.value }))}
+                        />
+                      </div>
+                      <div>
+                        <Label htmlFor="gameGenre">Game Genre</Label>
+                        <Select value={gddTemplate.gameGenre} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, gameGenre: value }))}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select genre..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="rpg">RPG</SelectItem>
+                            <SelectItem value="puzzle">Puzzle</SelectItem>
+                            <SelectItem value="platformer">Platformer</SelectItem>
+                            <SelectItem value="fps">FPS</SelectItem>
+                            <SelectItem value="narrative">Narrative-driven</SelectItem>
+                            <SelectItem value="strategy">Strategy</SelectItem>
+                            <SelectItem value="simulation">Simulation</SelectItem>
+                            <SelectItem value="horror">Horror</SelectItem>
+                            <SelectItem value="adventure">Adventure</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="inspiration">Inspiration</Label>
+                      <Textarea
+                        id="inspiration"
+                        placeholder="Other games, books, movies, etc. that inspired this idea..."
+                        value={gddTemplate.inspiration}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, inspiration: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="oneLinerPitch">One-Line Pitch</Label>
+                      <Input
+                        id="oneLinerPitch"
+                        placeholder="Elevator pitch that hooks players..."
+                        value={gddTemplate.oneLinerPitch}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, oneLinerPitch: e.target.value }))}
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="world" className="space-y-4">
+                    <div>
+                      <Label htmlFor="setting">Setting</Label>
+                      <Textarea
+                        id="setting"
+                        placeholder="Describe the world—fantasy realm, post-apocalyptic wasteland, futuristic city, etc..."
+                        value={gddTemplate.setting}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, setting: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="worldStructure">World Structure</Label>
+                      <Select value={gddTemplate.worldStructure} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, worldStructure: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select world structure..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="open-world">Open World</SelectItem>
+                          <SelectItem value="level-based">Level-based</SelectItem>
+                          <SelectItem value="sandbox">Sandbox</SelectItem>
+                          <SelectItem value="linear">Linear</SelectItem>
+                          <SelectItem value="hub-world">Hub World</SelectItem>
+                          <SelectItem value="procedural">Procedural</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="loreBackstory">Lore/Backstory</Label>
+                      <Textarea
+                        id="loreBackstory"
+                        placeholder="Describe the history, conflict, or mythos of your world..."
+                        value={gddTemplate.loreBackstory}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, loreBackstory: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="factionsCultures">Factions/Cultures</Label>
+                      <Textarea
+                        id="factionsCultures"
+                        placeholder="If any, describe the different groups or cultures..."
+                        value={gddTemplate.factionsCultures}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, factionsCultures: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="story" className="space-y-4">
+                    <div>
+                      <Label htmlFor="mainStoryline">Main Storyline</Label>
+                      <Textarea
+                        id="mainStoryline"
+                        placeholder="High-level summary of the main plot..."
+                        value={gddTemplate.mainStoryline}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, mainStoryline: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="mainCharacters">Main Character(s)</Label>
+                      <Textarea
+                        id="mainCharacters"
+                        placeholder="Name, role, motivations, backstory..."
+                        value={gddTemplate.mainCharacters}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, mainCharacters: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="supportingCharacters">Supporting Characters</Label>
+                      <Textarea
+                        id="supportingCharacters"
+                        placeholder="Allies, rivals, NPCs..."
+                        value={gddTemplate.supportingCharacters}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, supportingCharacters: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="antagonist">Antagonist/Villain</Label>
+                      <Textarea
+                        id="antagonist"
+                        placeholder="If applicable, describe the main antagonist..."
+                        value={gddTemplate.antagonist}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, antagonist: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="gameplay" className="space-y-4">
+                    <div>
+                      <Label htmlFor="coreGameplayLoop">Core Gameplay Loop</Label>
+                      <Textarea
+                        id="coreGameplayLoop"
+                        placeholder="What does the player do over and over?"
+                        value={gddTemplate.coreGameplayLoop}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, coreGameplayLoop: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="combatMechanics">Combat Mechanics</Label>
+                      <Textarea
+                        id="combatMechanics"
+                        placeholder="If any—turn-based, real-time, stealth?"
+                        value={gddTemplate.combatMechanics}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, combatMechanics: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="explorationMovement">Exploration & Movement</Label>
+                      <Textarea
+                        id="explorationMovement"
+                        placeholder="How does the player traverse the world?"
+                        value={gddTemplate.explorationMovement}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, explorationMovement: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="inventoryProgression">Inventory & Progression</Label>
+                      <Textarea
+                        id="inventoryProgression"
+                        placeholder="Leveling, skill trees, gear, crafting?"
+                        value={gddTemplate.inventoryProgression}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, inventoryProgression: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="multiplayerMode">Multiplayer or Single-player</Label>
+                      <Select value={gddTemplate.multiplayerMode} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, multiplayerMode: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select multiplayer mode..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="single-player">Single-player</SelectItem>
+                          <SelectItem value="local-multiplayer">Local Multiplayer</SelectItem>
+                          <SelectItem value="online-multiplayer">Online Multiplayer</SelectItem>
+                          <SelectItem value="both">Both</SelectItem>
+                          <SelectItem value="mmo">MMO</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="uniqueFeatures">Unique Gameplay Features</Label>
+                      <Textarea
+                        id="uniqueFeatures"
+                        placeholder="Something that sets this game apart..."
+                        value={gddTemplate.uniqueFeatures}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, uniqueFeatures: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="technical" className="space-y-4">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Label htmlFor="artStyleTemplate">Art Style</Label>
+                        <Select value={gddTemplate.artStyle} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, artStyle: value }))}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select art style..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="pixel-art">Pixel Art</SelectItem>
+                            <SelectItem value="cel-shaded">Cel-shaded</SelectItem>
+                            <SelectItem value="realistic-3d">Realistic 3D</SelectItem>
+                            <SelectItem value="anime-inspired">Anime-inspired</SelectItem>
+                            <SelectItem value="low-poly">Low Poly</SelectItem>
+                            <SelectItem value="hand-drawn">Hand-drawn</SelectItem>
+                            <SelectItem value="voxel">Voxel</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                      <div>
+                        <Label htmlFor="colorPalette">Color Palette</Label>
+                        <Select value={gddTemplate.colorPalette} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, colorPalette: value }))}>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select color palette..." />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="vibrant">Vibrant</SelectItem>
+                            <SelectItem value="dark-moody">Dark and Moody</SelectItem>
+                            <SelectItem value="pastel">Pastel</SelectItem>
+                            <SelectItem value="neon">Neon</SelectItem>
+                            <SelectItem value="monochrome">Monochrome</SelectItem>
+                            <SelectItem value="earth-tones">Earth Tones</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </div>
+                    </div>
+                    <div>
+                      <Label htmlFor="targetPlatforms">Target Platforms</Label>
+                      <Textarea
+                        id="targetPlatforms"
+                        placeholder="PC, mobile, console, VR, browser..."
+                        value={gddTemplate.targetPlatforms}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, targetPlatforms: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="monetizationModel">Monetization Model</Label>
+                      <Select value={gddTemplate.monetizationModel} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, monetizationModel: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select monetization model..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="premium">Premium</SelectItem>
+                          <SelectItem value="free-to-play">Free-to-play</SelectItem>
+                          <SelectItem value="freemium">Freemium</SelectItem>
+                          <SelectItem value="subscription">Subscription</SelectItem>
+                          <SelectItem value="ads">Ads</SelectItem>
+                          <SelectItem value="battle-pass">Battle Pass</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
+                      <Label htmlFor="targetAudience">Target Audience</Label>
+                      <Textarea
+                        id="targetAudience"
+                        placeholder="Age group, interest group, casual/hardcore..."
+                        value={gddTemplate.targetAudience}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, targetAudience: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="innovationElement">Innovation Element</Label>
+                      <Textarea
+                        id="innovationElement"
+                        placeholder="What makes it unique? The 'wow factor'..."
+                        value={gddTemplate.innovationElement}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, innovationElement: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                  </TabsContent>
+                </Tabs>
               </div>
-              <p className="text-xs text-muted-foreground mt-2 flex items-center gap-1">
-                <Sparkles className="h-3 w-3" />
-                Images generate based on your dream themes - try different keywords!
-              </p>
-            </div>
-            
-            <Textarea
-              placeholder="Example: A horror game where you can control time and solve puzzles in dreams..."
-              value={gameIdea}
-              onChange={(e) => setGameIdea(e.target.value)}
-              className="min-h-32 bg-background/50 border-primary/20 focus:border-primary/40"
-            />
-            <div className="flex gap-2 flex-wrap">
-              <Badge variant="secondary">Horror</Badge>
-              <Badge variant="secondary">Time Control</Badge>
-              <Badge variant="secondary">Puzzle</Badge>
-              <Badge variant="secondary">Dreams</Badge>
-            </div>
+            )}
+
             <Button 
               onClick={generateConcept}
-              disabled={!gameIdea.trim() || isGenerating}
+              disabled={(inputMode === 'freeform' ? !gameIdea.trim() : !gddTemplate.gameTitle.trim()) || isGenerating}
               className="w-full"
               variant="cosmic"
               size="lg"
@@ -639,7 +1158,7 @@ In the deepest layer of her psyche, Luna confronts the Paradox—a manifestation
               ) : (
                 <>
                   <Sparkles className="h-4 w-4" />
-                  Generate Game Concept
+                  Generate Game Design Document
                 </>
               )}
             </Button>
