@@ -836,11 +836,14 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                 </div>
 
                 <Tabs defaultValue="concept" className="w-full">
-                  <TabsList className="grid w-full grid-cols-5">
+                  <TabsList className="grid w-full grid-cols-8 text-xs">
                     <TabsTrigger value="concept">🧠 Concept</TabsTrigger>
                     <TabsTrigger value="world">🌍 World</TabsTrigger>
                     <TabsTrigger value="story">🎭 Story</TabsTrigger>
                     <TabsTrigger value="gameplay">🕹️ Gameplay</TabsTrigger>
+                    <TabsTrigger value="audio">🎵 Audio</TabsTrigger>
+                    <TabsTrigger value="progression">🏆 Progress</TabsTrigger>
+                    <TabsTrigger value="innovation">💡 Innovation</TabsTrigger>
                     <TabsTrigger value="technical">🎨 Technical</TabsTrigger>
                   </TabsList>
 
@@ -1056,6 +1059,89 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                     </div>
                   </TabsContent>
 
+                  <TabsContent value="audio" className="space-y-4">
+                    <div>
+                      <Label htmlFor="musicGenre">Music Genre</Label>
+                      <Textarea
+                        id="musicGenre"
+                        placeholder="Ambient, orchestral, synthwave, lo-fi, etc..."
+                        value={gddTemplate.musicGenre}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, musicGenre: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="soundDesign">Sound Design</Label>
+                      <Textarea
+                        id="soundDesign"
+                        placeholder="Describe how you want weapons, environments, or voices to sound..."
+                        value={gddTemplate.soundDesign}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, soundDesign: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="voiceActing">Voice Acting</Label>
+                      <Select value={gddTemplate.voiceActing} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, voiceActing: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Will it have voiceovers?" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="none">No Voice Acting</SelectItem>
+                          <SelectItem value="partial">Partial Voice Acting</SelectItem>
+                          <SelectItem value="full">Full Voice Acting</SelectItem>
+                          <SelectItem value="cutscenes-only">Cutscenes Only</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="progression" className="space-y-4">
+                    <div>
+                      <Label htmlFor="playerProgression">Player Progression</Label>
+                      <Textarea
+                        id="playerProgression"
+                        placeholder="How does the player get stronger?"
+                        value={gddTemplate.playerProgression}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, playerProgression: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="achievementsTrophies">Achievements/Trophies</Label>
+                      <Textarea
+                        id="achievementsTrophies"
+                        placeholder="Unique accomplishments or hidden secrets..."
+                        value={gddTemplate.achievementsTrophies}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, achievementsTrophies: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="replayValue">Replay Value</Label>
+                      <Textarea
+                        id="replayValue"
+                        placeholder="Is there NG+, branching paths, different endings?"
+                        value={gddTemplate.replayValue}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, replayValue: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                  </TabsContent>
+
+                  <TabsContent value="innovation" className="space-y-4">
+                    <div>
+                      <Label htmlFor="innovationElement">What Makes It Unique?</Label>
+                      <Textarea
+                        id="innovationElement"
+                        placeholder="Describe the 'wow factor' that makes this game stand out. Could be a never-before-seen mechanic, story twist, AI-driven world, real-world data integration, genre fusion, etc..."
+                        value={gddTemplate.innovationElement}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, innovationElement: e.target.value }))}
+                        className="min-h-32"
+                      />
+                    </div>
+                  </TabsContent>
+
                   <TabsContent value="technical" className="space-y-4">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
@@ -1093,6 +1179,26 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                       </div>
                     </div>
                     <div>
+                      <Label htmlFor="uiuxConcepts">UI/UX Concepts</Label>
+                      <Textarea
+                        id="uiuxConcepts"
+                        placeholder="Describe the user interface design, menus, HUD elements..."
+                        value={gddTemplate.uiuxConcepts}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, uiuxConcepts: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
+                      <Label htmlFor="characterEnvironmentDesign">Character & Environment Design</Label>
+                      <Textarea
+                        id="characterEnvironmentDesign"
+                        placeholder="Visual design for characters, creatures, and environments..."
+                        value={gddTemplate.characterEnvironmentDesign}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, characterEnvironmentDesign: e.target.value }))}
+                        className="min-h-20"
+                      />
+                    </div>
+                    <div>
                       <Label htmlFor="targetPlatforms">Target Platforms</Label>
                       <Textarea
                         id="targetPlatforms"
@@ -1119,6 +1225,20 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                       </Select>
                     </div>
                     <div>
+                      <Label htmlFor="onlineOfflineCapabilities">Online/Offline Capabilities</Label>
+                      <Select value={gddTemplate.onlineOfflineCapabilities} onValueChange={(value) => setGDDTemplate(prev => ({ ...prev, onlineOfflineCapabilities: value }))}>
+                        <SelectTrigger>
+                          <SelectValue placeholder="Select online/offline capabilities..." />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="offline-only">Offline Only</SelectItem>
+                          <SelectItem value="online-only">Online Only</SelectItem>
+                          <SelectItem value="both">Both Online & Offline</SelectItem>
+                          <SelectItem value="offline-with-sync">Offline with Cloud Sync</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div>
                       <Label htmlFor="targetAudience">Target Audience</Label>
                       <Textarea
                         id="targetAudience"
@@ -1129,12 +1249,12 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                       />
                     </div>
                     <div>
-                      <Label htmlFor="innovationElement">Innovation Element</Label>
+                      <Label htmlFor="accessibilityConsiderations">Accessibility Considerations</Label>
                       <Textarea
-                        id="innovationElement"
-                        placeholder="What makes it unique? The 'wow factor'..."
-                        value={gddTemplate.innovationElement}
-                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, innovationElement: e.target.value }))}
+                        id="accessibilityConsiderations"
+                        placeholder="Subtitles, colorblind mode, etc..."
+                        value={gddTemplate.accessibilityConsiderations}
+                        onChange={(e) => setGDDTemplate(prev => ({ ...prev, accessibilityConsiderations: e.target.value }))}
                         className="min-h-20"
                       />
                     </div>
