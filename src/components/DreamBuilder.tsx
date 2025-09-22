@@ -11,13 +11,6 @@ import { Sparkles, Gamepad2, Map, Palette, Settings, Layout, Loader2, Download, 
 import { useToast } from '@/hooks/use-toast';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
-import cosmicBackground from '@/assets/cosmic-background.jpg';
-import dreamConcept1 from '@/assets/dream-concept-1.jpg';
-import dreamConcept2 from '@/assets/dream-concept-2.jpg';
-import dreamConcept3 from '@/assets/dream-concept-3.jpg';
-import horrorConcept from '@/assets/horror-concept.jpg';
-import fantasyConcept from '@/assets/fantasy-concept.jpg';
-import dreamConcept from '@/assets/dream-concept.jpg';
 
 interface GameConcept {
   plotline: string;
@@ -153,31 +146,14 @@ export default function DreamBuilder() {
       }
       themes.splice(3); // Keep only first 3
       
-      // Select appropriate images based on themes detected
-      const dynamicImages = [];
+      // Create placeholder images based on detected themes
+      const placeholderImages = [
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDMzOGNhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5EcmVhbSBXb3JsZDwvdGV4dD48L3N2Zz4=',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNzI0OGVhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5GYW50YXN5PC90ZXh0Pjwvc3ZnPg==',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYjk0N2VhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Ib3Jyb3I8L3RleHQ+PC9zdmc+'
+      ];
       
-      // Map themes to appropriate concept images
-      for (const theme of themes) {
-        if (theme.includes('horror') || theme.includes('nightmare')) {
-          dynamicImages.push(horrorConcept);
-        } else if (theme.includes('fantasy') || theme.includes('mystical')) {
-          dynamicImages.push(fantasyConcept);
-        } else if (theme.includes('dream') || theme.includes('surreal')) {
-          dynamicImages.push(dreamConcept);
-        } else {
-          // Cycle through available concept images
-          const fallbackImages = [horrorConcept, fantasyConcept, dreamConcept];
-          dynamicImages.push(fallbackImages[dynamicImages.length % fallbackImages.length]);
-        }
-      }
-      
-      // Ensure we have exactly 3 images
-      while (dynamicImages.length < 3) {
-        const conceptImages = [horrorConcept, fantasyConcept, dreamConcept];
-        dynamicImages.push(conceptImages[dynamicImages.length % conceptImages.length]);
-      }
-      
-      setInspirationImages(dynamicImages.slice(0, 3));
+      setInspirationImages(placeholderImages);
       
       toast({
         title: "Dynamic Gallery Generated!",
@@ -186,7 +162,12 @@ export default function DreamBuilder() {
       
     } catch (error) {
       console.error('Error generating inspiration images:', error);
-      setInspirationImages([dreamConcept1, dreamConcept2, dreamConcept3]);
+      const placeholderImages = [
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDMzOGNhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDE8L3RleHQ+PC9zdmc+',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNzI0OGVhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDI8L3RleHQ+PC9zdmc+',
+        'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYjk0N2VhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDM8L3RleHQ+PC9zdmc+'
+      ];
+      setInspirationImages(placeholderImages);
       toast({
         title: "Using Default Gallery",
         description: "Error generating dynamic images - using fallback concepts.",
@@ -693,14 +674,8 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
   };
 
   return (
-    <div 
-      className="min-h-screen bg-cover bg-center bg-fixed relative"
-      style={{ backgroundImage: `url(${cosmicBackground})` }}
-    >
-      {/* Overlay for better readability */}
-      <div className="absolute inset-0 bg-background/80 backdrop-blur-sm"></div>
-      
-      <div className="relative z-10 container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-background text-foreground p-8">
+      <div className="container mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
           <div className="flex items-center justify-center gap-3 mb-4">
@@ -779,8 +754,10 @@ ${gddTemplate.uiuxConcepts || 'Clean, intuitive interface design that complement
                       </Button>
                     </div>
                   </div>
-                  <div className="grid grid-cols-3 gap-3">
-                    {(inspirationImages.length > 0 ? inspirationImages : [dreamConcept1, dreamConcept2, dreamConcept3]).map((image, index) => (
+                   <div className="grid grid-cols-3 gap-3">
+                     {(inspirationImages.length > 0 ? inspirationImages : ['data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNDMzOGNhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDE8L3RleHQ+PC9zdmc+',
+                     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjNzk0OGRhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDI8L3RleHQ+PC9zdmc+',
+                     'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjYjk0N2VhIi8+PHRleHQgeD0iNTAlIiB5PSI1MCUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0id2hpdGUiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGR5PSIuM2VtIj5Db25jZXB0IDM8L3RleHQ+PC9zdmc+']).map((image, index) => (
                       <div key={index} className="relative group cursor-pointer">
                         <img 
                           src={image} 
